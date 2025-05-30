@@ -11,6 +11,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('surimbim', function () {
+        return Inertia::render('surimbim');
+    })->name('surimbim');
 });
 
 require __DIR__.'/settings.php';
