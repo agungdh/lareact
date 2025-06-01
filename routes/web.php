@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('surimbim', function () {
         return Inertia::render('surimbim');
     })->name('surimbim');
+
+    Route::resource('/post', PostController::class);
 });
 
 require __DIR__.'/settings.php';

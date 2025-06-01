@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Baby, BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Baby, BookOpen, Folder, LayoutGrid, Rss } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -17,6 +17,11 @@ const mainNavItems: NavItem[] = [
         title: 'Surimbim',
         href: '/surimbim',
         icon: Baby,
+    },
+    {
+        title: 'Post',
+        href: '/post',
+        icon: Rss,
     },
 ];
 
