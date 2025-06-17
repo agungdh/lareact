@@ -3,10 +3,11 @@ name: Build & Push Docker image
 on:
   push:
     branches: [ "main" ]
-    tags: [ "v*.*.*" ]   # opsi: hanya rilis bernomor
+    tags:     [ "v*.*.*" ]
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/my-app
+  # Otomatis: <username-DockerHub>/<nama-repo-GitHub>
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
 
 jobs:
   build-and-push:
