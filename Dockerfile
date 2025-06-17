@@ -64,15 +64,11 @@ USER www-data
 
 # --- Build aplikasi (masih sebagai www-data) -------------
 RUN composer install --optimize-autoloader --no-interaction --prefer-dist \
- && composer clear-cache \            # 🧹 hapus cache Composer
+ && composer clear-cache \
  && npm install \
  && npm run build:ssr \
- && npm cache clean --force \         # 🧹 hapus cache npm
- && rm -rf $HOME/.npm/_cacache        # 🧹 pastikan direktori cacache hilang
-                                      #    (lokasinya: /var/www/.npm/_cacache)
+ && npm cache clean --force \
 
-# Opsional: buang juga direktori cache Composer (tersimpan di $HOME/.composer)
-RUN rm -rf $HOME/.composer/cache
 
 # Kalau node_modules memang tak dibutuhkan di runtime (karena hasil build
 # sudah di-bundle), hapus seperti biasa:
