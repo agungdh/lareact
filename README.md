@@ -28,4 +28,5 @@ volumes:
 
 # POST DEPLOY
 docker compose exec --user root app chmod +x ./post-deploy.sh
-docker compose exec --user www-data app ./post-deploy.sh 
+docker compose exec --user www-data app ./post-deploy.sh
+docker compose restart app
