@@ -62,17 +62,14 @@ COPY --chown=www-data:www-data . .
 
 USER www-data
 
-# --- Build aplikasi (masih sebagai www-data) -------------
 RUN composer install --optimize-autoloader --no-interaction --prefer-dist \
  && composer clear-cache \
  && npm install \
  && npm run build:ssr \
  && npm cache clean --force \
 
-
-# Kalau node_modules memang tak dibutuhkan di runtime (karena hasil build
-# sudah di-bundle), hapus seperti biasa:
-RUN rm -rf node_modules/
+RUN rm -rf /var/www/html/node_modules/
+RUN rm -rf /var/www/.npm/
 
 RUN php artisan optimize && \
     php artisan storage:link
