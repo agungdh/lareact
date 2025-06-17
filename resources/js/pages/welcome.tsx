@@ -6,6 +6,7 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -17,11 +18,18 @@ import {
     PaginationPrevious,
     PaginationNext,
 } from "@/components/ui/pagination";
+import {
+    Sheet,
+    SheetTrigger,
+    SheetContent,
+    SheetClose,
+} from "@/components/ui/sheet";
 import { Menu, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-// --- Dummy data (replace with API/CMS) --------------------------------------
+// ---------------------------------------------------------------------------
+// Dummy data – replace with fetch() / CMS integration
 const posts = [
     {
         id: 1,
@@ -29,58 +37,58 @@ const posts = [
         excerpt:
             "Pelajari bagaimana memanfaatkan komponen shadcn/ui untuk membangun antarmuka modern dengan cepat.",
         author: "Agung Dharma",
-        date: "2025-05-01",
-        image: "https://source.unsplash.com/random/800x600?ui",
+        date: "2025‑05‑01",
+        image: "https://source.unsplash.com/random/1200x800?ui",
         category: "Frontend",
     },
     {
         id: 2,
-        title: "Mengenal Tailwind CSS v4",
+        title: "Mengenal Tailwind CSS v4",
         excerpt:
             "Tailwind CSS v4 hadir dengan fitur baru yang membuat proses styling semakin menyenangkan.",
         author: "Rahmat Hidayat",
-        date: "2025-05-10",
-        image: "https://source.unsplash.com/random/800x600?css",
+        date: "2025‑05‑10",
+        image: "https://source.unsplash.com/random/1200x800?tailwind",
         category: "CSS",
     },
     {
         id: 3,
-        title: "Tips Optimasi React untuk Performa",
+        title: "Tips Optimasi React untuk Performa",
         excerpt:
-            "Kiat‑kiat praktis untuk meningkatkan performa aplikasi React Anda.",
+            "Kiat‑kiat praktis untuk meningkatkan performa aplikasi React Anda.",
         author: "Dewi Saraswati",
-        date: "2025-05-15",
-        image: "https://source.unsplash.com/random/800x600?react",
+        date: "2025‑05‑15",
+        image: "https://source.unsplash.com/random/1200x800?react",
         category: "React",
     },
     {
         id: 4,
-        title: "Membangun Blog dengan Next.js 15",
+        title: "Membangun Blog dengan Next.js 15",
         excerpt:
             "Panduan lengkap membuat blog powerful menggunakan Next.js versi terbaru.",
-        author: "Andi Wijaya",
-        date: "2025-05-22",
-        image: "https://source.unsplash.com/random/800x600?nextjs",
+        author: "Andi Wijaya",
+        date: "2025‑05‑22",
+        image: "https://source.unsplash.com/random/1200x800?nextjs",
         category: "Full‑Stack",
     },
     {
         id: 5,
-        title: "State Management Modern: Jotai vs Zustand",
+        title: "State Management Modern: Jotai vs Zustand",
         excerpt:
             "Mana yang lebih cocok untuk proyek Anda? Mari kita bandingkan dua library populer ini.",
-        author: "Sinta Lestari",
-        date: "2025-05-28",
-        image: "https://source.unsplash.com/random/800x600?state",
+        author: "Sinta Lestari",
+        date: "2025‑05‑28",
+        image: "https://source.unsplash.com/random/1200x800?state",
         category: "React",
     },
     {
         id: 6,
-        title: "Deploy Cepat ke Vercel dengan GitHub Actions",
+        title: "Deploy Cepat ke Vercel dengan GitHub Actions",
         excerpt:
-            "Automasi CI/CD ke Vercel tanpa repot menggunakan GitHub Actions.",
-        author: "Budi Santoso",
-        date: "2025-06-05",
-        image: "https://source.unsplash.com/random/800x600?vercel",
+            "Automasi CI/CD ke Vercel tanpa repot menggunakan GitHub Actions.",
+        author: "Budi Santoso",
+        date: "2025‑06‑05",
+        image: "https://source.unsplash.com/random/1200x800?vercel",
         category: "DevOps",
     },
 ];
@@ -92,12 +100,49 @@ const categories = [
     "Full‑Stack",
     "DevOps",
 ];
-
 // ---------------------------------------------------------------------------
+function PostCard({ post }) {
+    return (
+        <Card
+            key={post.id}
+            className="overflow-hidden group rounded‑2xl shadow‑md transition hover:shadow‑xl hover:scale‑[1.015] bg‑background/90 backdrop‑blur‑sm"
+        >
+            <motion.img
+                src={post.image}
+                alt={post.title}
+                className="h‑56 w‑full object‑cover group‑hover:scale‑110 transition‑transform duration‑500"
+                initial={{ scale: 1, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+            />
+
+            <CardContent className="p‑6 space‑y‑4">
+                <div className="flex items‑center gap‑2 text‑xs text‑muted‑foreground">
+                    <time>{post.date}</time>
+                    <Badge variant="secondary">{post.category}</Badge>
+                </div>
+                <CardTitle className="line‑clamp‑2 hover:text‑primary transition‑colors">
+                    {post.title}
+                </CardTitle>
+                <CardDescription className="line‑clamp‑3">
+                    {post.excerpt}
+                </CardDescription>
+            </CardContent>
+            <CardFooter className="p‑6 pt‑0 flex items‑center gap‑3">
+                <Avatar className="h‑8 w‑8">
+                    <AvatarImage src={`https://i.pravatar.cc/40?u=${post.author}`} />
+                    <AvatarFallback>{post.author.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <span className="text‑sm text‑muted‑foreground">{post.author}</span>
+            </CardFooter>
+        </Card>
+    );
+}
+
 export default function BlogPage() {
     const [query, setQuery] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 4;
+    const pageSize = 6; // tampilkan lebih banyak per halaman agar grid terasa penuh
 
     const filtered = posts.filter((p) =>
         p.title.toLowerCase().includes(query.toLowerCase())
@@ -106,104 +151,113 @@ export default function BlogPage() {
     const pageCount = Math.ceil(filtered.length / pageSize);
 
     return (
-        <div className="min-h-screen flex flex-col bg-muted/40">
-            {/* Header / Navbar */}
-            <header className="sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b">
-                <div className="container flex h-16 items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Menu className="lg:hidden" />
-                        <span className="font-bold text-xl">My‑Blog</span>
-                    </div>
-                    <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
-                        <a href="#" className="transition-colors hover:text-foreground/80">
+        <div className="min‑h‑screen flex flex‑col bg‑muted/40 font‑sans">
+            {/* —————————————————— Header / Navbar —————————————————— */}
+            <header className="sticky top‑0 z‑50 w‑full border‑b bg‑background/70 backdrop‑blur supports‑[backdrop‑filter]:bg‑background/60">
+                <div className="container flex h‑16 items‑center justify‑between">
+                    {/* Mobile menu */}
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className="lg:hidden">
+                                <Menu className="h‑5 w‑5" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="pr‑0">
+                            <nav className="p‑6 space‑y‑4">
+                                {[
+                                    { href: "#", label: "Home" },
+                                    { href: "#", label: "About" },
+                                    { href: "#", label: "Contact" },
+                                ].map((link) => (
+                                    <SheetClose asChild key={link.label}>
+                                        <a
+                                            href={link.href}
+                                            className="block text‑lg font‑medium hover:text‑primary"
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </SheetClose>
+                                ))}
+                            </nav>
+                        </SheetContent>
+                    </Sheet>
+
+                    {/* Logo */}
+                    <a href="#" className="font‑bold text‑2xl tracking‑tight">
+                        My‑Blog
+                    </a>
+
+                    {/* Desktop nav */}
+                    <nav className="hidden lg:flex items‑center gap‑8 text‑sm font‑medium">
+                        <a href="#" className="hover:text‑primary transition‑colors">
                             Home
                         </a>
-                        <a href="#" className="transition-colors hover:text-foreground/80">
+                        <a href="#" className="hover:text‑primary transition‑colors">
                             About
                         </a>
-                        <a href="#" className="transition-colors hover:text-foreground/80">
+                        <a href="#" className="hover:text‑primary transition‑colors">
                             Contact
                         </a>
                     </nav>
                 </div>
             </header>
 
-            {/* Hero Section */}
+            {/* —————————————————— Hero Section —————————————————— */}
             <motion.section
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="w-full bg-gradient-to-r from-primary/60 to-secondary/60 py-14 text-background"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative isolate"
             >
-                <div className="container text-center max-w-2xl space-y-4">
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow">
-                        Welcome to My‑Blog
-                    </h1>
-                    <p className="text-lg md:text-xl">
-                        Insight seputar teknologi web, pemrograman, dan pengembangan produk
-                        digital.
-                    </p>
+                <img
+                    src="https://source.unsplash.com/random/1920x1080?blog"
+                    alt="Hero"
+                    className="absolute inset‑0 h‑[60vh] w‑full object‑cover object‑center"
+                />
+                <div className="absolute inset‑0 bg‑gradient‑to‑r from‑background/60 to‑background/30" />
+                <div className="relative container flex h‑[60vh] items‑center justify‑center text‑center">
+                    <div className="space‑y‑6 max‑w‑2xl">
+                        <h1 className="text‑4xl md:text‑5xl font‑extrabold tracking‑tight drop‑shadow">
+                            Insight & Inspirasi Teknologi
+                        </h1>
+                        <p className="text‑lg md:text‑xl font‑medium">
+                            Artikel pilihan seputar web development, design, dan DevOps.
+                        </p>
+                        <div className="flex justify‑center">
+                            <Search className="absolute ml‑3 mt‑2.5 h‑4 w‑4 text‑muted‑foreground" />
+                            <Input
+                                placeholder="Cari artikel ..."
+                                className="pl‑10 w‑72 md:w‑96"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
+                        </div>
+                    </div>
                 </div>
             </motion.section>
 
-            {/* Main Content */}
-            <main className="container flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 py-12">
-                {/* Posts Grid */}
-                <section className="lg:col-span-8 space-y-8">
-                    {/* Search Bar */}
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Cari artikel..."
-                            className="pl-10"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Posts List */}
-                    <div className="grid sm:grid-cols-2 gap-6">
+            {/* —————————————————— Main Content —————————————————— */}
+            <main className="container flex‑1 grid grid‑cols‑1 lg:grid‑cols‑12 gap‑10 py‑14">
+                {/* ——— Posts Grid ——— */}
+                <section className="lg:col‑span‑8 space‑y‑10">
+                    <div
+                        className="grid gap‑8 sm:grid‑cols‑2 lg:grid‑cols‑3 xl:grid‑cols‑3"
+                    >
                         {paginated.map((post) => (
-                            <Card
-                                key={post.id}
-                                className="overflow-hidden hover:shadow-lg transition-shadow group"
-                            >
-                                <img
-                                    src={post.image}
-                                    alt={post.title}
-                                    className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <CardContent className="p-6 space-y-4">
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                        <time>{post.date}</time>
-                                        <Badge variant="secondary">{post.category}</Badge>
-                                    </div>
-                                    <CardTitle className="line-clamp-2 hover:text-primary transition-colors">
-                                        {post.title}
-                                    </CardTitle>
-                                    <CardDescription className="line-clamp-3">
-                                        {post.excerpt}
-                                    </CardDescription>
-                                </CardContent>
-                                <CardFooter className="p-6 pt-0 flex items-center gap-3">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src={`https://i.pravatar.cc/40?u=${post.author}`} />
-                                        <AvatarFallback>{post.author.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                    <span className="text-sm text-muted-foreground">{post.author}</span>
-                                </CardFooter>
-                            </Card>
+                            <PostCard key={post.id} post={post} />
                         ))}
                     </div>
 
                     {/* Pagination */}
                     {pageCount > 1 && (
-                        <Pagination>
+                        <Pagination className="justify‑center">
                             <PaginationContent>
                                 <PaginationItem>
                                     <PaginationPrevious
                                         onClick={() => setPage((p) => Math.max(1, p - 1))}
-                                        className={page === 1 ? "pointer-events-none opacity-50" : ""}
+                                        className={
+                                            page === 1 ? "pointer‑events‑none opacity‑40" : ""
+                                        }
                                     />
                                 </PaginationItem>
                                 {Array.from({ length: pageCount }).map((_, i) => (
@@ -220,7 +274,7 @@ export default function BlogPage() {
                                     <PaginationNext
                                         onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
                                         className={
-                                            page === pageCount ? "pointer-events-none opacity-50" : ""
+                                            page === pageCount ? "pointer‑events‑none opacity‑40" : ""
                                         }
                                     />
                                 </PaginationItem>
@@ -229,38 +283,42 @@ export default function BlogPage() {
                     )}
                 </section>
 
-                {/* Sidebar */}
-                <aside className="lg:col-span-4 space-y-8">
+                {/* ——— Sidebar ——— */}
+                <aside className="lg:col‑span‑4 space‑y‑8 order‑first lg:order‑none">
                     {/* Categories */}
-                    <Card>
+                    <Card className="rounded‑2xl">
                         <CardHeader>
                             <CardTitle>Kategori</CardTitle>
                         </CardHeader>
-                        <CardContent className="flex flex-wrap gap-2">
+                        <CardContent className="flex flex‑wrap gap‑3">
                             {categories.map((cat) => (
-                                <Badge key={cat}>{cat}</Badge>
+                                <Badge key={cat} variant="outline" className="cursor‑pointer">
+                                    {cat}
+                                </Badge>
                             ))}
                         </CardContent>
                     </Card>
 
                     {/* Recent Posts */}
-                    <Card>
+                    <Card className="rounded‑2xl">
                         <CardHeader>
                             <CardTitle>Artikel Terbaru</CardTitle>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                            {posts.slice(0, 3).map((post) => (
-                                <div key={post.id} className="flex gap-3">
+                        <CardContent className="space‑y‑4">
+                            {posts.slice(0, 4).map((post) => (
+                                <div key={post.id} className="flex gap‑3 items‑start">
                                     <img
                                         src={post.image}
                                         alt={post.title}
-                                        className="h-16 w-24 object-cover rounded-md"
+                                        className="h‑16 w‑24 object‑cover rounded‑md"
                                     />
                                     <div>
-                                        <h4 className="font-medium line-clamp-2 text-sm hover:text-primary transition-colors">
+                                        <h4 className="font‑medium line‑clamp‑2 text‑sm hover:text‑primary transition‑colors">
                                             {post.title}
                                         </h4>
-                                        <time className="text-xs text-muted-foreground">{post.date}</time>
+                                        <time className="text‑xs text‑muted‑foreground">
+                                            {post.date}
+                                        </time>
                                     </div>
                                 </div>
                             ))}
@@ -269,19 +327,35 @@ export default function BlogPage() {
                 </aside>
             </main>
 
-            {/* Footer */}
-            <footer className="border-t bg-background/60 py-6 backdrop-blur">
-                <div className="container flex flex-col sm:flex-row items-center justify-between text-sm text-muted-foreground gap-4">
-          <span>
-            © {new Date().getFullYear()} My‑Blog. Dibuat dengan ❤ dan shadcn/ui.
-          </span>
-                    <div className="flex gap-4">
-                        <a href="#" className="hover:text-foreground/80">
-                            Privacy Policy
-                        </a>
-                        <a href="#" className="hover:text-foreground/80">
-                            Terms & Conditions
-                        </a>
+            {/* —————————————————— Footer —————————————————— */}
+            <footer className="border‑t bg‑background/70 backdrop‑blur py‑8">
+                <div className="container grid sm:grid‑cols‑2 lg:grid‑cols‑3 gap‑6 text‑sm text‑muted‑foreground">
+                    <div>
+                        <h3 className="font‑semibold mb‑3">About</h3>
+                        <p>
+                            My‑Blog adalah platform berbagi insight tentang teknologi web &
+                            pemrograman.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 className="font‑semibold mb‑3">Quick Links</h3>
+                        <ul className="space‑y‑2">
+                            <li>
+                                <a href="#" className="hover:text‑primary">
+                                    Privacy Policy
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:text‑primary">
+                                    Terms & Conditions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="sm:col‑span‑2 lg:col‑span‑1 lg:text‑right flex lg:block justify‑between items‑center">
+            <span>
+              © {new Date().getFullYear()} My‑Blog. Dibuat dengan ❤ dan shadcn/ui.
+            </span>
                     </div>
                 </div>
             </footer>
