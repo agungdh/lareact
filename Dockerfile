@@ -70,6 +70,8 @@ RUN npm run build:ssr
 RUN php artisan optimize && \
     php artisan storage:link
 
+RUN rm -rf node_modules/
+
 USER root
 
 # Copy nginx config

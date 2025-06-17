@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,6 +51,22 @@ return [
     */
 
     'channels' => [
+
+        'laravel' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS'),
+            'replace_placeholders' => true,
+        ],
+
+        'dev' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/dev.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS'),
+            'replace_placeholders' => true,
+        ],
 
         'stack' => [
             'driver' => 'stack',
