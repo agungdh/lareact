@@ -66,7 +66,7 @@ RUN composer install --optimize-autoloader --no-interaction --prefer-dist \
  && composer clear-cache \
  && npm install \
  && npm run build:ssr \
- && npm cache clean --force \
+ && npm cache clean --force
 
 RUN rm -rf /var/www/html/node_modules
 
