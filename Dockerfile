@@ -68,8 +68,9 @@ RUN composer install --optimize-autoloader --no-interaction --prefer-dist \
  && npm run build:ssr \
  && npm cache clean --force \
 
-RUN rm -rf /var/www/html/node_modules/
-RUN rm -rf /var/www/.npm/
+RUN rm -rf /var/www/html/node_modules
+
+RUN rm -rf /var/www/.npm
 
 RUN php artisan optimize && \
     php artisan storage:link
