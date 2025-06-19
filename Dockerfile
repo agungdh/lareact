@@ -92,4 +92,4 @@ EXPOSE 80
 
 CMD ["/usr/bin/supervisord", "-n"]
 
-HEALTHCHECK CMD curl --fail http://localhost/up || exit 1
+HEALTHCHECK CMD curl --fail http://127.0.0.1/up || exit 1
