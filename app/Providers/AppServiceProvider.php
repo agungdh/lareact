@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Jobs\LogHeader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;

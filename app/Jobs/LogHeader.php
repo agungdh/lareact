@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class LogHeader implements ShouldQueue
 {
-    use Queueable;
     use AddLogRequestId;
+    use Queueable;
 
     /**
      * Create a new job instance.

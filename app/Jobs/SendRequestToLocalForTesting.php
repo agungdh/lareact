@@ -6,7 +6,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class SendRequestToLocalForTesting implements ShouldQueue
 {
@@ -22,13 +21,14 @@ class SendRequestToLocalForTesting implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @throws ConnectionException
      */
     public function handle(): void
     {
         switch ($this->method) {
             case 'POST':
-                Http::get(config('app.url') . '/sur', [
+                Http::get(config('app.url').'/sur', [
                     'tehe' => 'tehe',
                     'hehe' => now(),
                     'init_at' => date('Y-m-d H:i:s'),
@@ -36,7 +36,7 @@ class SendRequestToLocalForTesting implements ShouldQueue
                 ]);
                 break;
             case 'GET':
-                Http::get(config('app.url') . '/');
+                Http::get(config('app.url').'/');
                 break;
             default:
                 break;
