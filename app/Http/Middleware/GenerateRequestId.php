@@ -17,7 +17,6 @@ class GenerateRequestId
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         if (!$request->headers->has('X-Request-Id')) {
             $requestId = (string) Str::uuid();
 
