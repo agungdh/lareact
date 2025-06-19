@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Jobs\LogHeader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -24,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
         LogViewer::auth(function ($request) {
             return Auth::check();
         });
+
+        LogHeader::dispatch(request()->header());
     }
 }
