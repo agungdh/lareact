@@ -23,6 +23,12 @@ class LogHeader implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::getLogger()->pushProcessor(function ($record) {
+            $record['extra']['surimbim_request_id'] = $this->requestId;
+
+            return $record;
+        });
+
         Log::info('Helo helo: '.date('Y-m-d H:i:s'));
         Log::info('biar ngelog aja gasi gengs', $this->headers);
     }

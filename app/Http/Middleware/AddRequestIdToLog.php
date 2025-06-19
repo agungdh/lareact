@@ -19,7 +19,7 @@ class AddRequestIdToLog
         $requestId = $request->headers->get('X-Request-Id');
 
         Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
-            $record['extra']['request_id'] = $requestId;
+            $record['extra']['surimbim_request_id'] = $requestId;
 
             return $record;
         });
