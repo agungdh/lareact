@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -21,23 +22,19 @@ class SendRequestToLocalForTesting implements ShouldQueue
 
     /**
      * Execute the job.
+     * @throws ConnectionException
      */
     public function handle(): void
     {
-        Log::info('Sending request to local server', [
-            'method' => $this->method,
-            'timestamp' => date('Y-m-d H:i:s'),
-        ]);
-
         switch ($this->method) {
             case 'POST':
-                Http::post(url('/'), [
+                Http::get(config('app.url') . '/sur', [
                     'init_at' => date('Y-m-d H:i:s'),
                     'init_at_2' => now(),
                 ]);
                 break;
             case 'GET':
-                Http::get(url('/'));
+                Http::get(config('app.url') . '/');
                 break;
             default:
                 break;

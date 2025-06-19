@@ -12,7 +12,7 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::post('/', function (Request $request) {
+Route::get('/sur', function (Request $request) {
     Log::info('surimbim', [
         'kapan' => date('Y-m-d H:i:s'),
         'request' => $request->all(),
