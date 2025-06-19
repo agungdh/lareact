@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class AddRequestIdToRequestAttribute
+class AddRequestIdToLog
 {
     /**
      * Handle an incoming request.
@@ -18,16 +18,10 @@ class AddRequestIdToRequestAttribute
     {
         $requestId = $request->headers->get('X-Request-Id');
 
-        // Tambahkan request_id ke dalam context log secara global
         Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
             $record['extra']['request_id'] = $requestId;
             return $record;
         });
-
-        Log::info('sury');
-
-        // Set request_id ke dalam request untuk akses lebih lanjut
-        $request->attributes->set('request_id', $requestId);
 
         return $next($request);
     }

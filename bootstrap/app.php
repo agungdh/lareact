@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\AddRequestIdToRequestAttribute;
+use App\Http\Middleware\AddRequestIdToLog;
 use App\Http\Middleware\GenerateRequestId;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             GenerateRequestId::class,
-            AddRequestIdToRequestAttribute::class,
+            AddRequestIdToLog::class,
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
