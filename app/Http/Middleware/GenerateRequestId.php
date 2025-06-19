@@ -21,8 +21,13 @@ class GenerateRequestId
 
         // Add the request ID to the request object
         $request->headers->set('X-Request-Id', $requestId);
-        $request->headers->set('Surimbim', $requestId);
 
-        return $next($request);
+        // Pass the request to the next middleware and get the response
+        $response = $next($request);
+
+        // Add the request ID to the response headers
+        $response->headers->set('X-Request-Id', $requestId);
+
+        return $response;
     }
 }
