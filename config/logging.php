@@ -58,7 +58,7 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS'),
             'replace_placeholders' => true,
-            'tap' => [App\Logging\CustomizeFormatter::class],  // Menambahkan class untuk custom formatter
+//            'tap' => [App\Logging\CustomizeFormatter::class],  // Menambahkan class untuk custom formatter
         ],
 
         'dev' => [

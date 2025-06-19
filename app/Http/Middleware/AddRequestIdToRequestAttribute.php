@@ -20,9 +20,11 @@ class AddRequestIdToRequestAttribute
 
         // Tambahkan request_id ke dalam context log secara global
         Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
-            $record['context']['request_id'] = $requestId;
+            $record['extra']['request_id'] = $requestId;
             return $record;
         });
+
+        Log::info('sury');
 
         // Set request_id ke dalam request untuk akses lebih lanjut
         $request->attributes->set('request_id', $requestId);
