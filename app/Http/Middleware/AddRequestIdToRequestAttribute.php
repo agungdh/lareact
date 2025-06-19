@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class AddRequestIdToLogs
+class AddRequestIdToRequestAttribute
 {
     /**
      * Handle an incoming request.
@@ -15,9 +16,13 @@ class AddRequestIdToLogs
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $requestId = $request->header->get('X-Request-Id');
+        $requestId = $request->headers->get('X-Request-Id');
 
-        $request->attributes->set('request_id', $requestId);
+        // Tambahkan request_id ke dalam context log secara global
+        Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
+            $record['context']['request_id'] = $requestId;
+            return $record;
+        });
 
         return $next($request);
     }

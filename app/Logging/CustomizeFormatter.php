@@ -18,7 +18,8 @@ class CustomizeFormatter
         foreach ($logger->getHandlers() as $handler) {
             // Ganti format default dengan format kustom
             $formatter = new LineFormatter(
-                "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
+//                "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
+                "[%datetime%] %channel%.%level_name% %context.request_id%: %message% %context% %extra%\n",
                 null,
                 true,
                 true
