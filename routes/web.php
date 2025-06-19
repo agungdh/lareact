@@ -7,7 +7,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     Log::info('surimbim', [
-        'request_id' => 'dududuw',
+        'kapan' => date('Y-m-d H:i:s'),
     ]);
 
     LogHeader::dispatch(request()->headers->get('X-Request-Id'), request()->header());
