@@ -3,14 +3,13 @@
 namespace App\Logging;
 
 use Monolog\Formatter\LineFormatter;
-use Monolog\Logger;
 
 class CustomizeFormatter
 {
     /**
      * Customize the Monolog instance.
      *
-     * @param \Monolog\Logger $logger
+     * @param  \Monolog\Logger  $logger
      * @return void
      */
     public function __invoke($logger)

@@ -20,6 +20,7 @@ class AddRequestIdToLog
 
         Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
             $record['extra']['request_id'] = $requestId;
+
             return $record;
         });
 

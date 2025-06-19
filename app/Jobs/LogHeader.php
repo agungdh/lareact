@@ -23,7 +23,7 @@ class LogHeader implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Helo helo: ' . date('Y-m-d H:i:s'));
+        Log::info('Helo helo: '.date('Y-m-d H:i:s'));
         Log::info('biar ngelog aja gasi gengs', $this->headers);
     }
 }
