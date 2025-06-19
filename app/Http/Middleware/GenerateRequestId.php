@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\Settings\PasswordController;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,14 +22,14 @@ class GenerateRequestId
             $requestId = (string) Str::uuid();
 
             $request->headers->set('X-Request-Id', $requestId);
-        }
 
-        $response = $next($request);
+            $response = $next($request);
 
-        if (!$response->headers->has('X-Request-Id')) {
             $response->headers->set('X-Request-Id', $request->headers->get('X-Request-Id'));
+
+            return $response;
         }
 
-        return $response;
+        return $next($request);
     }
 }
