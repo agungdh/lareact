@@ -25,7 +25,5 @@ class AppServiceProvider extends ServiceProvider
         LogViewer::auth(function ($request) {
             return Auth::check();
         });
-
-        LogHeader::dispatch(request()->header());
     }
 }

@@ -13,7 +13,7 @@ class LogHeader implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private array $headers = [])
+    public function __construct(private string $requestId, private array $headers = [])
     {
         //
     }

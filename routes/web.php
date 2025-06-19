@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Jobs\LogHeader;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -8,6 +9,8 @@ Route::get('/', function () {
     Log::info('surimbim', [
         'request_id' => 'dududuw',
     ]);
+
+    LogHeader::dispatch(request()->headers->get('X-Request-Id'), request()->header());
 
     return Inertia::render('welcome');
 })->name('home');
