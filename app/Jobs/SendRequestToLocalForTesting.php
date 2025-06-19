@@ -29,6 +29,8 @@ class SendRequestToLocalForTesting implements ShouldQueue
         switch ($this->method) {
             case 'POST':
                 Http::get(config('app.url') . '/sur', [
+                    'tehe' => 'tehe',
+                    'hehe' => now(),
                     'init_at' => date('Y-m-d H:i:s'),
                     'init_at_2' => now(),
                 ]);
