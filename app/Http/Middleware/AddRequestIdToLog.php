@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\AddLogRequestId;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AddRequestIdToLog
 {
+    use AddLogRequestId;
+
     /**
      * Handle an incoming request.
      *
@@ -18,11 +21,7 @@ class AddRequestIdToLog
     {
         $requestId = $request->headers->get('X-Request-Id');
 
-        Log::getLogger()->pushProcessor(function ($record) use ($requestId) {
-            $record['extra']['surimbim_request_id'] = $requestId;
-
-            return $record;
-        });
+        $this->addRequestId($requestId);
 
         return $next($request);
     }
