@@ -16,27 +16,18 @@ class GenerateRequestId
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Cek apakah request sudah memiliki header X-Request-Id
-        $requestId = $request->header('X-Request-Id');
 
-        // Jika belum ada, generate request ID baru
-        if (!$requestId) {
+        if (!$request->headers->has('X-Request-Id')) {
             $requestId = (string) Str::uuid();
+
+            $request->headers->set('X-Request-Id', $requestId);
         }
 
-        // Tambahkan request ID ke request object
-        $request->headers->set('X-Request-Id', $requestId);
-
-        // Proses request ke middleware berikutnya dan ambil response
         $response = $next($request);
 
-        // Tambahkan request ID ke response header jika belum ada
         if (!$response->headers->has('X-Request-Id')) {
-            $response->headers->set('X-Request-Id', $requestId);
+            $response->headers->set('X-Request-Id', $request->headers->get('X-Request-Id'));
         }
-
-        // Opsional: log request ID untuk keperluan tracing
-        \Log::info('Request ID: ' . $requestId);
 
         return $response;
     }
