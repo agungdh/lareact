@@ -24,6 +24,9 @@ class AddRequestIdToRequestAttribute
             return $record;
         });
 
+        // Set request_id ke dalam request untuk akses lebih lanjut
+        $request->attributes->set('request_id', $requestId);
+
         return $next($request);
     }
 }

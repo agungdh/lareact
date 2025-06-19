@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    Log::info('surimbim');
+    Log::info('surimbim', [
+        'request_id' => 'dududuw',
+    ]);
 
     return Inertia::render('welcome');
 })->name('home');
