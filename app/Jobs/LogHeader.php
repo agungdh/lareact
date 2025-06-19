@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\AddLogRequestId;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 class LogHeader implements ShouldQueue
 {
     use Queueable;
+    use AddLogRequestId;
 
     /**
      * Create a new job instance.
@@ -23,11 +25,7 @@ class LogHeader implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::getLogger()->pushProcessor(function ($record) {
-            $record['extra']['surimbim_request_id'] = $this->requestId;
-
-            return $record;
-        });
+        $this->addRequestId($this->requestId);
 
         Log::info('Helo helo: '.date('Y-m-d H:i:s'));
         Log::info('biar ngelog aja gasi gengs', $this->headers);
