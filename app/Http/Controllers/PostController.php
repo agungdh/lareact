@@ -57,8 +57,13 @@ class PostController extends Controller
                     if (trim($tag) !== '') {
                         $tag = Str::slug(trim($tag));
 
-                        $newTag = new Tag();
-                        $newTag->slug = Str::replace(' ', '-', $tag);
+                        $slug = Str::slug($tag);
+                        $newTag = Tag::where('slug', $slug)->first();
+                        if (!$newTag) {
+                            $newTag = new Tag();
+                        }
+
+                        $newTag->slug = $slug;
                         $newTag->tag = $tag;
                         $newTag->save();
 
@@ -76,7 +81,12 @@ class PostController extends Controller
                     if (trim($category) !== '') {
                         $category = Str::slug(trim($category));
 
-                        $newCategory = new Category();
+                        $slug = Str::slug($category);
+                        $newCategory = Category::where('slug', $slug)->first();
+                        if (!$newCategory) {
+                            $newCategory = new Category();
+                        }
+
                         $newCategory->slug = Str::replace(' ', '-', $category);
                         $newCategory->category = $category;
                         $newCategory->save();
