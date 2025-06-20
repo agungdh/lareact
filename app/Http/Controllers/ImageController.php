@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\OptimizeImage;
 use App\Models\File;
 use App\Service\FileService;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class ImageController extends Controller
 
     public function index()
     {
-        $images = File::where('type', 'image')->orderByDesc('id')->get();
+        $images = File::where([
+            'type' => 'image',
+            'status' => 'ready',
+        ])->orderByDesc('id')->get();
 
         $this->fileService->setFileSizes($images);
 
@@ -45,11 +49,13 @@ class ImageController extends Controller
             $file->description = $request->description;
             $file->save();
 
-            $path = $request->file('image')->storeAs('file', $file->id);
+            $path = $request->file('image')->storeAs('file', $file->id . '_raw');
 
             $file->path = $path;
             $file->status = 'uploaded';
             $file->save();
+
+            OptimizeImage::dispatch($file);
         });
 
         return redirect()->route('image.index')->with('success', 'Image uploaded successfully.');
