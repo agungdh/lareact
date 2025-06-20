@@ -36,7 +36,8 @@ class OptimizeImage implements ShouldQueue
         $path = Str::replace('_raw', '', $oldPath);
         Storage::put(
             $path,
-            $image->toWebp(70, true)
+            $image->toWebp(70, true),
+            'public'
         );
 
         $this->file->path = $path;
