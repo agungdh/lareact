@@ -11,7 +11,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({ images }) {
-    console.log({ images });
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
