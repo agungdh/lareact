@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Jobs\LogHeader;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('surimbim');
 
     Route::resource('/post', PostController::class);
+    Route::resource('/image', ImageController::class);
 });
 
 require __DIR__.'/settings.php';
