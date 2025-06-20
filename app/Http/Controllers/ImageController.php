@@ -20,6 +20,8 @@ class ImageController extends Controller
     {
         $images = File::where('type', 'image')->orderByDesc('id')->get();
 
+        $this->fileService->setFileUrls($images);
+
         return Inertia::render('image/index', compact([
             'images',
         ]));
@@ -57,7 +59,7 @@ class ImageController extends Controller
             $file->description = $request->description;
             $file->save();
 
-            $path = $request->file('image')->storeAs('file', $file->id . '_raw');
+            $path = $request->file('image')->storeAs('file', $file->id);
 
             $file->path = $path;
             $file->status = 'uploaded';

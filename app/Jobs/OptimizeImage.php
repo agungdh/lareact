@@ -33,11 +33,11 @@ class OptimizeImage implements ShouldQueue
 
         $image = Image::read(Storage::get($oldPath));
 
-        $path = Str::replace('_raw', '', $oldPath);
-        Storage::put(
+        $path = 'images/' . Str::uuid()->toString() . '.webp';
+
+        Storage::disk('s3_public')->put(
             $path,
             $image->toWebp(70, true),
-            'public'
         );
 
         $this->file->path = $path;

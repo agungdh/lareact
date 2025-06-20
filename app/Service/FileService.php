@@ -28,4 +28,18 @@ class FileService
             $this->setFileSize($file);
         });
     }
+
+    public function getFileUrl(string $path) {
+        return Storage::disk('s3_public')->url($path);
+    }
+
+    public function setFileUrl(&$file) {
+        $file->url = $this->getFileUrl($file->path);
+    }
+
+    public function setFileUrls(Collection &$files) {
+        $files->each(function ($file) {
+            $this->setFileUrl($file);
+        });
+    }
 }
