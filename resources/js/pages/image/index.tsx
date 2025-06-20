@@ -27,7 +27,6 @@ export default function Index({images}) {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Filename</TableHead>
-                        <TableHead>Size</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Action</TableHead>
                     </TableRow>
@@ -36,9 +35,11 @@ export default function Index({images}) {
                     {images.map((image) => (
                         <TableRow key={image.id}>
                             <TableCell>{image.name}</TableCell>
-                            <TableCell>{image.size / 1000}</TableCell>
                             <TableCell>{image.status}</TableCell>
-                            <TableCell>Delete</TableCell>
+                            <TableCell>
+                                <button>Preview</button>
+                                <button>Delete</button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

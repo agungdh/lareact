@@ -29,9 +29,11 @@ class OptimizeImage implements ShouldQueue
         $this->file->status = 'optimizing';
         $this->file->save();
 
-        $image = Image::read(Storage::get($this->file->path));
+        $oldPath = $this->file->path;
 
-        $path = Str::random();
+        $image = Image::read(Storage::get($oldPath));
+
+        $path = Str::replace('_raw', '', $oldPath);
         Storage::put(
             $path,
             $image->encodeByExtension(\Illuminate\Support\Facades\File::extension($this->file->name), quality: 70)
@@ -40,5 +42,7 @@ class OptimizeImage implements ShouldQueue
         $this->file->path = $path;
         $this->file->status = 'ready';
         $this->file->save();
+
+        Storage::delete($oldPath);
     }
 }
