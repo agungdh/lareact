@@ -27,7 +27,7 @@ class PostController extends Controller
 
     public function create()
     {
-        return Inertia::render('image/create');
+        return Inertia::render('post/create');
     }
 
     public function store(Request $request)
