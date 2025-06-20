@@ -22,4 +22,19 @@ class Post extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        $array['tags'] = $this->tags->pluck('tag')->toArray();
+        $array['categories'] = $this->categories->pluck('category')->toArray();
+
+        return $array;
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === 'published';
+    }
 }
