@@ -1,6 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -25,12 +28,13 @@ export default function Index() {
             <Head title="Index" />
 
             <form onSubmit={submit}>
-                <input type="text" value={data.description} onChange={(e) => setData('description', e.target.value)} />
-                <input type="file" onChange={(e) => setData('image', e.target.files[0])} />
+                <Input type="text" placeholder="Description" value={data.description} onChange={(e) => setData('description', e.target.value)} />
+                <div className="grid w-full max-w-sm items-center gap-3">
+                    <Label htmlFor="file">File</Label>
+                    <Input id="file" type="file" onChange={(e) => setData('image', e.target.files[0])} />
+                </div>
                 {progress && (
-                    <progress value={progress.percentage} max="100">
-                        {progress.percentage}%
-                    </progress>
+                    <Progress value={progress.percentage} className="w-[60%]" />
                 )}
                 <button type="submit">Submit</button>
             </form>
