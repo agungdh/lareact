@@ -16,13 +16,12 @@ services:
     command: -config.file=/etc/promtail/promtail-config.yml
     volumes:
       - ./promtail-config.yml:/etc/promtail/promtail-config.yml:ro
-      - /var/lib/docker/volumes/storage-logs/_data:/var/log/laravel:ro
-      - /var/lib/docker/volumes/websocket_log/_data:/var/log/websocket:ro # ← NEW
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes/php-logs/_data:/var/log/php:ro # ← baru
-      - /var/lib/docker/volumes/nginx-logs/_data:/var/log/nginx:ro # ← baru
-      - /var/lib/docker/volumes/supervisor-logs/_data:/var/log/supervisor:ro # ← NEW
+      - /var/lib/docker/volumes/lareact_storage-logs/_data:/var/log/laravel:ro
+      - /var/lib/docker/volumes/lareact_php-logs/_data:/var/log/php:ro # ← baru
+      - /var/lib/docker/volumes/lareact_nginx-logs/_data:/var/log/nginx:ro # ← baru
+      - /var/lib/docker/volumes/lareact_supervisor-logs/_data:/var/log/supervisor:ro # ← NEW
 
   grafana:
     image: grafana/grafana-oss
