@@ -37,7 +37,7 @@ export default function Index({images}) {
                             <TableCell>{image.name}</TableCell>
                             <TableCell>{image.status}</TableCell>
                             <TableCell>
-                                {image.status === 'ready' && <button>Preview</button>}
+                                {image.status === 'ready' && <a href={`/image/${image.id}`} target='_blank'><button>Preview</button></a>}
                                 <button>Delete</button>
                             </TableCell>
                         </TableRow>

@@ -25,6 +25,19 @@ class ImageController extends Controller
         ]));
     }
 
+    public function show(File $image)
+    {
+        return redirect(
+            Storage::temporaryUrl(
+                $image->path,
+                now()->addMinutes(5),
+                [
+                    'ResponseContentDisposition' => 'inline; filename=' . $image->name,
+                ]
+            )
+        );
+    }
+
     public function create()
     {
         return Inertia::render('image/create');
