@@ -11,7 +11,7 @@ use Laravel\Scout\Searchable;
 class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
-    use HasFactory, Searchable;
+    use HasFactory;
 
     public function tags(): BelongsToMany
     {
