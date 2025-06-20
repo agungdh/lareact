@@ -8,6 +8,3 @@ use Illuminate\Support\Facades\Schedule;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
-
-Schedule::job(new SendRequestToLocalForTesting('POST'))->everySecond();
-Schedule::job(new SendRequestToLocalForTesting('GET'))->everyMinute();

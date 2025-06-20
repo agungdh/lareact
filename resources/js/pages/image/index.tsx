@@ -4,7 +4,6 @@ import { Head } from '@inertiajs/react';
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -22,6 +21,7 @@ export default function Index() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
+            <a href='/image/create'>Tambah</a>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -31,6 +31,7 @@ export default function Index() {
                 </TableHeader>
                 <TableBody>
                     <TableRow>
+                        <TableCell>Paid</TableCell>
                         <TableCell>Paid</TableCell>
                     </TableRow>
                 </TableBody>
