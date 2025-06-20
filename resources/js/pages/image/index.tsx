@@ -26,16 +26,20 @@ export default function Index({images}) {
             <Table>
                 <TableHeader>
                     <TableRow>
+                        <TableHead>ID</TableHead>
                         <TableHead>Filename</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Description</TableHead>
                         <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {images.map((image) => (
                         <TableRow key={image.id}>
+                            <TableCell>{image.id}</TableCell>
                             <TableCell>{image.name}</TableCell>
                             <TableCell>{image.status}</TableCell>
+                            <TableCell>{image.description}</TableCell>
                             <TableCell>
                                 {image.status === 'ready' && <a href={`/image/${image.id}`} target='_blank'><button>Preview</button></a>}
                                 <button>Delete</button>

@@ -36,11 +36,12 @@ class OptimizeImage implements ShouldQueue
         $path = Str::replace('_raw', '', $oldPath);
         Storage::put(
             $path,
-            $image->encodeByExtension(\Illuminate\Support\Facades\File::extension($this->file->name), quality: 70)
+            $image->toWebp(70, true)
         );
 
         $this->file->path = $path;
         $this->file->status = 'ready';
+        $this->file->name = Str::uuid() . '.webp'; // Rename to a unique name
         $this->file->save();
 
         Storage::delete($oldPath);
