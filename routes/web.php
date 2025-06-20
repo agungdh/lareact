@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
-use App\Jobs\LogHeader;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

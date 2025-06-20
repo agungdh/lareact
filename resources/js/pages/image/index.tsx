@@ -1,14 +1,7 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,12 +10,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({images}) {
+export default function Index({ images }) {
     console.log({ images });
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
-            <a href='/image/create'>Tambah</a>
+            <a href="/image/create">Tambah</a>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -41,7 +34,11 @@ export default function Index({images}) {
                             <TableCell>{image.status}</TableCell>
                             <TableCell>{image.description}</TableCell>
                             <TableCell>
-                                {image.status === 'ready' && <a href={image.url} target='_blank'><button>Preview</button></a>}
+                                {image.status === 'ready' && (
+                                    <a href={image.url} target="_blank">
+                                        <button>Preview</button>
+                                    </a>
+                                )}
                                 <button>Delete</button>
                             </TableCell>
                         </TableRow>

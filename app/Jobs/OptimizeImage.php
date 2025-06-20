@@ -33,7 +33,7 @@ class OptimizeImage implements ShouldQueue
 
         $image = Image::read(Storage::get($oldPath));
 
-        $path = 'images/' . Str::uuid()->toString() . '.webp';
+        $path = 'images/'.Str::uuid()->toString().'.webp';
 
         Storage::disk('s3_public')->put(
             $path,
@@ -42,7 +42,7 @@ class OptimizeImage implements ShouldQueue
 
         $this->file->path = $path;
         $this->file->status = 'ready';
-        $this->file->name = Str::uuid() . '.webp'; // Rename to a unique name
+        $this->file->name = Str::uuid().'.webp'; // Rename to a unique name
         $this->file->save();
 
         Storage::delete($oldPath);

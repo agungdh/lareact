@@ -15,29 +15,35 @@ class FileService
         //
     }
 
-    public function getFileSize(string $path) {
+    public function getFileSize(string $path)
+    {
         return Storage::size($path);
     }
 
-    public function setFileSize(&$file) {
+    public function setFileSize(&$file)
+    {
         $file->size = $this->getFileSize($file->path);
     }
 
-    public function setFileSizes(Collection &$files) {
+    public function setFileSizes(Collection &$files)
+    {
         $files->each(function ($file) {
             $this->setFileSize($file);
         });
     }
 
-    public function getFileUrl(string $path) {
+    public function getFileUrl(string $path)
+    {
         return Storage::disk('s3_public')->url($path);
     }
 
-    public function setFileUrl(&$file) {
+    public function setFileUrl(&$file)
+    {
         $file->url = $this->getFileUrl($file->path);
     }
 
-    public function setFileUrls(Collection &$files) {
+    public function setFileUrls(Collection &$files)
+    {
         $files->each(function ($file) {
             $this->setFileUrl($file);
         });

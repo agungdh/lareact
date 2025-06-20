@@ -12,9 +12,7 @@ use Inertia\Inertia;
 
 class ImageController extends Controller
 {
-    public function __construct(private readonly FileService $fileService)
-    {
-    }
+    public function __construct(private readonly FileService $fileService) {}
 
     public function index()
     {
@@ -34,7 +32,7 @@ class ImageController extends Controller
                 $image->path,
                 now()->addMinutes(5),
                 [
-                    'ResponseContentDisposition' => 'inline; filename=' . $image->name,
+                    'ResponseContentDisposition' => 'inline; filename='.$image->name,
                 ]
             )
         );
@@ -45,13 +43,14 @@ class ImageController extends Controller
         return Inertia::render('image/create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'image' => 'required|image|max:2048',
         ]);
 
         DB::transaction(function () use ($request) {
-            $file = new File();
+            $file = new File;
             $file->type = 'image';
             $file->status = 'uploading';
             $file->name = $request->file('image')->getClientOriginalName();
