@@ -18,12 +18,7 @@ class ImageController extends Controller
 
     public function index()
     {
-        $images = File::where([
-            'type' => 'image',
-            'status' => 'ready',
-        ])->orderByDesc('id')->get();
-
-        $this->fileService->setFileSizes($images);
+        $images = File::where('type', 'image')->orderByDesc('id')->get();
 
         return Inertia::render('image/index', compact([
             'images',
