@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Service\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -10,9 +11,15 @@ use Inertia\Inertia;
 
 class ImageController extends Controller
 {
+    public function __construct(private readonly FileService $fileService)
+    {
+    }
+
     public function index()
     {
         $images = File::where('type', 'image')->orderByDesc('id')->get();
+
+        $this->fileService->setFileSizes($images);
 
         return Inertia::render('image/index', compact([
             'images',

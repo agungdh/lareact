@@ -17,7 +17,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index() {
+export default function Index({images}) {
+    console.log({ images });
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
@@ -27,13 +28,19 @@ export default function Index() {
                     <TableRow>
                         <TableHead>Filename</TableHead>
                         <TableHead>Size</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>Paid</TableCell>
-                        <TableCell>Paid</TableCell>
-                    </TableRow>
+                    {images.map((image) => (
+                        <TableRow key={image.id}>
+                            <TableCell>{image.name}</TableCell>
+                            <TableCell>{image.size / 1000}</TableCell>
+                            <TableCell>{image.status}</TableCell>
+                            <TableCell>Delete</TableCell>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </AppLayout>
