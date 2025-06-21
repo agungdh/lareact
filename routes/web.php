@@ -3,6 +3,7 @@
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchPostController;
+use App\Http\Controllers\ShowPostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,6 +12,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/search', SearchPostController::class);
+Route::get('/blog/{post:slug}', ShowPostController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
