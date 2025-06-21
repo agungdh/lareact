@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchPostController;
@@ -12,7 +13,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/search', SearchPostController::class);
-Route::get('/blog/{post:slug}', ShowPostController::class);
+Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/blog/{post:slug}', [BlogController::class, 'show']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
