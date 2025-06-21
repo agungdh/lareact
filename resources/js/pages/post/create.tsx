@@ -1,10 +1,10 @@
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router, useForm } from '@inertiajs/react';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import { Label } from '@/components/ui/label';
+import { Head, router } from '@inertiajs/react';
 import MDEditor from '@uiw/react-md-editor';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,25 +15,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index() {
     const [values, setValues] = useState({
-        tags: "",
-        categories: "",
-        slug: "",
-        title: "",
-        post_content: "",
-    })
+        tags: '',
+        categories: '',
+        slug: '',
+        title: '',
+        post_content: '',
+    });
 
     function handleChange(e) {
         const key = e.target.id;
-        const value = e.target.value
-        setValues(values => ({
+        const value = e.target.value;
+        setValues((values) => ({
             ...values,
             [key]: value,
-        }))
+        }));
     }
 
     function handleSubmit(e) {
-        e.preventDefault()
-        router.post('/post', values)
+        e.preventDefault();
+        router.post('/post', values);
     }
 
     return (
@@ -58,10 +58,7 @@ export default function Index() {
                     <Input type="text" id="title" placeholder="Title" value={values.title} onChange={handleChange} />
                 </div>
                 <div className="container">
-                    <MDEditor
-                        value={values.post_content}
-                        onChange={(value) => setValues(values => ({ ...values, post_content: value || "" }))}
-                    />
+                    <MDEditor value={values.post_content} onChange={(value) => setValues((values) => ({ ...values, post_content: value || '' }))} />
                 </div>
 
                 <button type="submit">Submit</button>

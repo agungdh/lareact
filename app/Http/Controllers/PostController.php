@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\OptimizeImage;
 use App\Models\Category;
-use App\Models\File;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -59,8 +57,8 @@ class PostController extends Controller
 
                         $slug = Str::slug($tag);
                         $newTag = Tag::where('slug', $slug)->first();
-                        if (!$newTag) {
-                            $newTag = new Tag();
+                        if (! $newTag) {
+                            $newTag = new Tag;
                         }
 
                         $newTag->slug = $slug;
@@ -83,8 +81,8 @@ class PostController extends Controller
 
                         $slug = Str::slug($category);
                         $newCategory = Category::where('slug', $slug)->first();
-                        if (!$newCategory) {
-                            $newCategory = new Category();
+                        if (! $newCategory) {
+                            $newCategory = new Category;
                         }
 
                         $newCategory->slug = Str::replace(' ', '-', $category);

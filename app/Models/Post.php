@@ -26,7 +26,7 @@ class Post extends Model
 
     public function toSearchableArray(): array
     {
-        $Parsedown = new Parsedown();
+        $Parsedown = new Parsedown;
 
         $html = $Parsedown->text($this->content);
         $plainText = strip_tags($html);

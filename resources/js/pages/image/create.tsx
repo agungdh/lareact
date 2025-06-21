@@ -1,9 +1,9 @@
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -33,9 +33,7 @@ export default function Index() {
                     <Label htmlFor="file">File</Label>
                     <Input id="file" type="file" onChange={(e) => setData('image', e.target.files[0])} />
                 </div>
-                {progress && (
-                    <Progress value={progress.percentage} className="w-[60%]" />
-                )}
+                {progress && <Progress value={progress.percentage} className="w-[60%]" />}
                 <button type="submit">Submit</button>
             </form>
         </AppLayout>

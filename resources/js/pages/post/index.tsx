@@ -32,8 +32,8 @@ export default function Index({ posts }) {
                             <TableCell>{post.id}</TableCell>
                             <TableCell>{post.slug}</TableCell>
                             <TableCell>{post.title}</TableCell>
-                            <TableCell>  {post.tags?.map(t => t.tag).join(', ')}</TableCell>
-                            <TableCell> {post.categories?.map(c => c.category).join(', ')}</TableCell>
+                            <TableCell> {post.tags?.map((t) => t.tag).join(', ')}</TableCell>
+                            <TableCell> {post.categories?.map((c) => c.category).join(', ')}</TableCell>
                             <TableCell>
                                 <a href={`/post/${post.id}`}>
                                     <button>Preview</button>
