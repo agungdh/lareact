@@ -19,6 +19,8 @@ class AdminSeeder extends Seeder
             Admin::factory([
                 'user_id' => $user->id,
             ])->create();
+
+            $user->assignRole('admin');
         });
     }
 }
