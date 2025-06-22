@@ -4,7 +4,6 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchPostController;
-use App\Http\Controllers\ShowPostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
