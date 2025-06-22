@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->createSampleUser();
     }
 
-    private function createSampleUser() {
+    private function createSampleUser()
+    {
         $user = User::factory(['username' => 'admin', 'password' => 'admin'])->create();
 
         Admin::factory([

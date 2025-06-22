@@ -52,20 +52,21 @@ class User extends Authenticatable
 
     protected function profile(): Attribute
     {
-        return Attribute::get(fn() => $this->getProfile());
+        return Attribute::get(fn () => $this->getProfile());
     }
 
     protected function name(): Attribute
     {
-        return Attribute::get(fn() => $this->profile->name);
+        return Attribute::get(fn () => $this->profile->name);
     }
 
-
-    public function admin(): HasOne {
+    public function admin(): HasOne
+    {
         return $this->hasOne(Admin::class);
     }
 
-    public function getProfile() {
+    public function getProfile()
+    {
         return match ($this->getRole()?->name) {
             'admin' => $this->admin,
             // 'student' => $this->student,
@@ -74,7 +75,8 @@ class User extends Authenticatable
         };
     }
 
-    public function getRole() {
+    public function getRole()
+    {
         return $this->roles()->first();
     }
 }

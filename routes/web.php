@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-//    $user = Auth::user();
-//    return $user;
-//    dd($user->profile);
+    //    $user = Auth::user();
+    //    return $user;
+    //    dd($user->profile);
     return Inertia::render('welcome');
 })->name('home');
 
