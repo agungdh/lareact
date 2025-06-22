@@ -13,7 +13,7 @@ class BlogController extends Controller
             ->orderByDesc('id')
             ->paginate(10);
 
-        return inertia('Blog/Index', [
+        return inertia('blog/index', [
             'posts' => $posts,
         ]);
     }
