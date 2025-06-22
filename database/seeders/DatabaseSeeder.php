@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,11 +22,17 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
         ]);
 
-        //        User::factory(100)->create();
-        //
-        //        User::factory()->create([
-        //            'name' => 'Test User',
-        //            'email' => 'test@example.com',
-        //        ]);
+        $this->createSampleUser();
+    }
+
+    private function createSampleUser() {
+        $user = User::factory(['username' => 'admin', 'password' => 'admin'])->create();
+
+        Admin::factory([
+            'user_id' => $user->id,
+            'name' => 'Admin',
+        ])->create();
+
+        $user->assignRole('admin');
     }
 }
