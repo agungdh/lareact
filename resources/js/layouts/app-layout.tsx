@@ -1,26 +1,28 @@
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
+import { toast } from 'sonner';
 
 interface AppLayoutProps {
     children: ReactNode;
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
+export default function AppLayout({ children, breadcrumbs, ...props }: AppLayoutProps) {
     const { flash } = usePage().props;
+
+    useEffect(() => {
+        // Trigger sonner flash messages only on client
+        if (flash?.success) toast.success(flash.success);
+        if (flash?.error) toast.error(flash.error);
+        if (flash?.info) toast(flash.info);
+        if (flash?.message) toast.success(flash.message); // legacy
+    }, [flash]);
 
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-            {/* Flash message */}
-            {flash?.message && (
-                <div className="mb-4 rounded bg-green-100 px-4 py-2 text-green-800 shadow">
-                    {flash.message}
-                </div>
-            )}
-
             {children}
         </AppLayoutTemplate>
     );
-};
+}
