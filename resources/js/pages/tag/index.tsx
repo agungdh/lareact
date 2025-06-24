@@ -64,6 +64,7 @@ export default function Index() {
                                 <TableBody>
                                     {tags.data.map((tag) => (
                                         <TableRow key={tag.id}>
+                                            <TableCell>{tag.id}</TableCell>
                                             <TableCell>{tag.slug}</TableCell>
                                             <TableCell>{tag.tag}</TableCell>
                                             <TableCell>
