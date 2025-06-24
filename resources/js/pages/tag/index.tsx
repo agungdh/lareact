@@ -19,22 +19,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index() {
     const { tags, filters } = usePage().props;
+
     const { data, setData, get } = useForm({
         search: filters.search || '',
-        per_page: filters.per_page || 10,
     });
 
-    function handleSearch(e) {
+    const handleSearch = (e) => {
         e.preventDefault();
-        get('/tag', {
+        router.get('/tag', {
+            search: data.search,
+            per_page: filters.per_page,
+        }, {
             preserveState: true,
             replace: true,
         });
-    }
+    };
 
-    function handlePerPageChange(e) {
-        setData('per_page', e.target.value);
-        const perPage = e.target.value;
+    const handlePerPageChange = (e) => {
+        const perPage = Math.min(parseInt(e.target.value), 100);
         router.get('/tag', {
             search: data.search,
             per_page: perPage,
@@ -42,7 +44,17 @@ export default function Index() {
             preserveState: true,
             replace: true,
         });
-    }
+    };
+
+    const handlePaginate = (url) => {
+        router.get(url, {
+            search: filters.search,
+            per_page: filters.per_page,
+        }, {
+            preserveState: true,
+            replace: true,
+        });
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -53,7 +65,7 @@ export default function Index() {
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
                             <div className="mb-4 flex items-center justify-between">
-                                {/* Tombol tambah data */}
+                                {/* Tombol tambah */}
                                 <a
                                     href="/tag/create"
                                     className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
@@ -64,7 +76,7 @@ export default function Index() {
                                 {/* Per Page + Search */}
                                 <div className="flex items-center gap-4">
                                     <select
-                                        value={data.per_page}
+                                        value={filters.per_page || 10}
                                         onChange={handlePerPageChange}
                                         className="rounded border px-2 py-1"
                                     >
@@ -122,24 +134,24 @@ export default function Index() {
                                 </TableBody>
                             </Table>
 
-                            {/* Pagination */}
+                            {/* Pagination & Info */}
                             <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
                                 <div className="flex gap-2">
                                     {tags.prev_page_url && (
-                                        <a
-                                            href={tags.prev_page_url}
+                                        <button
+                                            onClick={() => handlePaginate(tags.prev_page_url)}
                                             className="rounded bg-gray-200 px-3 py-1"
                                         >
                                             Prev
-                                        </a>
+                                        </button>
                                     )}
                                     {tags.next_page_url && (
-                                        <a
-                                            href={tags.next_page_url}
+                                        <button
+                                            onClick={() => handlePaginate(tags.next_page_url)}
                                             className="rounded bg-gray-200 px-3 py-1"
                                         >
                                             Next
-                                        </a>
+                                        </button>
                                     )}
                                 </div>
 
