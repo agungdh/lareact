@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -10,7 +10,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({ tags }) {
+export default function Index() {
+    const { tags } = usePage().props;
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
@@ -41,6 +43,26 @@ export default function Index({ tags }) {
                                     ))}
                                 </TableBody>
                             </Table>
+
+                            <div className="mt-4 flex gap-4">
+                                {tags.prev_page_url && (
+                                    <a
+                                        href={tags.prev_page_url}
+                                        className="px-3 py-1 bg-gray-200 rounded"
+                                    >
+                                        Prev
+                                    </a>
+                                )}
+                                {tags.next_page_url && (
+                                    <a
+                                        href={tags.next_page_url}
+                                        className="px-3 py-1 bg-gray-200 rounded"
+                                    >
+                                        Next
+                                    </a>
+                                )}
+                            </div>
+
                         </div>
                     </section>
                 </div>

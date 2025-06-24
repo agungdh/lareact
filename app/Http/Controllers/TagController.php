@@ -13,7 +13,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::paginate();
+        $tags = Tag::cursorPaginate();
 
         return Inertia::render('tag/index', compact([
             'tags',
