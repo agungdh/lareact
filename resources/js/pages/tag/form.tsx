@@ -57,7 +57,7 @@ export default function Form() {
                                 </div>
 
                                 <div className="grid w-full gap-2">
-                                    <Label htmlFor="tag">Email address</Label>
+                                    <Label htmlFor="tag">Tag</Label>
 
                                     <Input
                                         id="tag"
@@ -71,7 +71,11 @@ export default function Form() {
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Button disabled={processing}>Save</Button>
+                                    <Button type="submit" disabled={processing}>Save</Button>
+
+                                    <a href="/tag">
+                                        <Button type="button" variant="outline">Kembali</Button>
+                                    </a>
 
                                     <Transition
                                         show={recentlySuccessful}
@@ -83,6 +87,7 @@ export default function Form() {
                                         <p className="text-sm text-neutral-600">Saved</p>
                                     </Transition>
                                 </div>
+
                             </form>
                         </div>
                     </section>

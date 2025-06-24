@@ -55,12 +55,13 @@ class TagController extends Controller
         ]);
 
         $tag = new Tag;
-
         $tag->slug = $request->slug;
         $tag->tag = $request->tag;
-
         $tag->save();
+
+        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
     }
+
 
     /**
      * Display the specified resource.
