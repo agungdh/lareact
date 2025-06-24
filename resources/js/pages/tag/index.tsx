@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -79,9 +79,9 @@ export default function Index() {
                         <div className="space-y-6">
                             <div className="mb-4 flex items-center justify-between">
                                 {/* Tombol tambah */}
-                                <a href="/tag/create" className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
+                                <Link href="/tag/create" className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
                                     + Tambah Tag
-                                </a>
+                                </Link>
 
                                 {/* Per Page + Search */}
                                 <div className="flex items-center gap-4">
