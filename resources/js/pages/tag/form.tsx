@@ -37,8 +37,8 @@ export default function Form() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tag" />
 
-            <div className="px-4 py-6">
-                <div className="w-full">
+            <div className="px-4 py-6 flex justify-center">
+                <div className="w-3/4">
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
                             <HeadingSmall title="Create Tag"/>
