@@ -38,13 +38,13 @@ export default function Form() {
             <Head title="Tag" />
 
             <div className="px-4 py-6">
-                <div className="md:max-w-2xl">
-                    <section className="max-w-xl space-y-12">
+                <div className="w-full">
+                    <section className="w-full space-y-12">
                         <div className="space-y-6">
                             <HeadingSmall title="Create Tag"/>
 
-                            <form onSubmit={submit} className="space-y-6">
-                                <div className="grid gap-2">
+                            <form onSubmit={submit} className="space-y-6 w-full">
+                                <div className="grid gap-2 w-full">
                                     <Label htmlFor="slug">Slug</Label>
 
                                     <Input
@@ -52,14 +52,13 @@ export default function Form() {
                                         className="mt-1 block w-full"
                                         value={data.slug}
                                         onChange={(e) => setData('slug', e.target.value)}
-                                        // required
                                         placeholder="Slug"
                                     />
 
                                     <InputError className="mt-2" message={errors.slug} />
                                 </div>
 
-                                <div className="grid gap-2">
+                                <div className="grid gap-2 w-full">
                                     <Label htmlFor="tag">Email address</Label>
 
                                     <Input
@@ -67,7 +66,6 @@ export default function Form() {
                                         className="mt-1 block w-full"
                                         value={data.tag}
                                         onChange={(e) => setData('tag', e.target.value)}
-                                        // required
                                         placeholder="Tag"
                                     />
 
@@ -89,10 +87,8 @@ export default function Form() {
                                 </div>
                             </form>
                         </div>
-
                     </section>
                 </div>
-
             </div>
 
 
