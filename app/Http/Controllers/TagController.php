@@ -20,9 +20,8 @@ class TagController extends Controller
             $query->where('tag', 'like', "%{$search}%")
                 ->orWhere('slug', 'like', "%{$search}%");
         });
-        $tags = $tags->orderBy('tags.id')
-            ->cursorPaginate()
-            ->withQueryString();
+        $tags = $tags->orderBy('id')
+            ->paginate();
 
         return Inertia::render('tag/index', [
             'tags' => $tags,
