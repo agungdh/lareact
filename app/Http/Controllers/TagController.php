@@ -62,7 +62,6 @@ class TagController extends Controller
         return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
     }
 
-
     /**
      * Display the specified resource.
      */
