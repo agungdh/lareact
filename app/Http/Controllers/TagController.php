@@ -14,22 +14,26 @@ class TagController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $perPage = min((int) $request->input('per_page', 10), 100);
 
-        $tags = Tag::query();
-        $tags = $tags->when($search, function ($query, $search) {
-            $query->where('tag', 'like', "%{$search}%")
-                ->orWhere('slug', 'like', "%{$search}%");
-        });
-        $tags = $tags->orderBy('id')
-            ->paginate();
+        $tags = Tag::query()
+            ->when($search, function ($query, $search) {
+                $query->where('tag', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            })
+            ->orderBy('id')
+            ->paginate($perPage)
+            ->withQueryString();
 
         return Inertia::render('tag/index', [
             'tags' => $tags,
             'filters' => [
                 'search' => $search,
+                'per_page' => $perPage,
             ],
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
