@@ -88,7 +88,11 @@ export default function Index() {
                                 )}
                             </div>
 
-                            <div className="mt-2 text-sm text-gray-600">Menampilkan {tags.data.length} data pada halaman ini.</div>
+                            <div className="mt-2 text-sm text-gray-600">
+                                Menampilkan data ke {tags.from} sampai {tags.to} dari total {tags.total} data.
+                                Halaman {tags.current_page} dari {tags.last_page}.
+                            </div>
+
                         </div>
                     </section>
                 </div>
