@@ -11,13 +11,22 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tags = Tag::cursorPaginate();
+        $search = $request->input('search');
 
-        return Inertia::render('tag/index', compact([
-            'tags',
-        ]));
+        $tags = Tag::when($search, function ($query, $search) {
+            $query->where('tag', 'like', "%{$search}%")
+                ->orWhere('slug', 'like', "%{$search}%");
+        })
+            ->cursorPaginate();
+
+        return Inertia::render('tag/index', [
+            'tags' => $tags,
+            'filters' => [
+                'search' => $search,
+            ],
+        ]);
     }
 
     /**

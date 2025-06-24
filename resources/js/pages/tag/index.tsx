@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -11,7 +11,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index() {
-    const { tags } = usePage().props;
+    const { tags, filters } = usePage().props;
+    const { data, setData, get } = useForm({
+        search: filters.search || '',
+    });
+
+    function handleSearch(e) {
+        e.preventDefault();
+        get('/tag', {
+            preserveState: true,
+            replace: true,
+        });
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -21,8 +32,22 @@ export default function Index() {
                 <div className="w-3/4">
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
-                            <a href="/tag/create">Tambah</a>
 
+                            <form onSubmit={handleSearch} className="mb-4">
+                                <input
+                                    type="text"
+                                    value={data.search}
+                                    onChange={(e) => setData('search', e.target.value)}
+                                    className="px-3 py-2 border rounded w-64"
+                                    placeholder="Search tag or slug..."
+                                />
+                                <button
+                                    type="submit"
+                                    className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+                                >
+                                    Search
+                                </button>
+                            </form>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
