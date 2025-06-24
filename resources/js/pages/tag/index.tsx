@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,7 +34,11 @@ export default function Index() {
 
     function handlePerPageChange(e) {
         setData('per_page', e.target.value);
-        get('/tag', {
+        const perPage = e.target.value;
+        router.get('/tag', {
+            search: data.search,
+            per_page: perPage,
+        }, {
             preserveState: true,
             replace: true,
         });
