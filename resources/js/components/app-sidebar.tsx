@@ -23,6 +23,16 @@ const mainNavItems: NavItem[] = [
         href: '/post',
         icon: Rss,
     },
+    {
+        title: 'Tag',
+        href: '/tag',
+        icon: Rss,
+    },
+    {
+        title: 'Category',
+        href: '/category',
+        icon: Rss,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
