@@ -1,16 +1,14 @@
-import { type BreadcrumbItem, type SharedData } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,14 +35,14 @@ export default function Form() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tag" />
 
-            <div className="px-4 py-6 flex justify-center">
+            <div className="flex justify-center px-4 py-6">
                 <div className="w-3/4">
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
-                            <HeadingSmall title="Create Tag"/>
+                            <HeadingSmall title="Create Tag" />
 
-                            <form onSubmit={submit} className="space-y-6 w-full">
-                                <div className="grid gap-2 w-full">
+                            <form onSubmit={submit} className="w-full space-y-6">
+                                <div className="grid w-full gap-2">
                                     <Label htmlFor="slug">Slug</Label>
 
                                     <Input
@@ -58,7 +56,7 @@ export default function Form() {
                                     <InputError className="mt-2" message={errors.slug} />
                                 </div>
 
-                                <div className="grid gap-2 w-full">
+                                <div className="grid w-full gap-2">
                                     <Label htmlFor="tag">Email address</Label>
 
                                     <Input
@@ -90,8 +88,6 @@ export default function Form() {
                     </section>
                 </div>
             </div>
-
-
         </AppLayout>
     );
 }
