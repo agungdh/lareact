@@ -56,6 +56,14 @@ export default function Index() {
         });
     };
 
+    const handleDelete = (id) => {
+        if (confirm('Apakah kamu yakin ingin menghapus tag ini?')) {
+            router.delete(`/tag/${id}`, {
+                preserveScroll: true,
+            });
+        }
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
@@ -127,7 +135,13 @@ export default function Index() {
                                             <TableCell>{tag.slug}</TableCell>
                                             <TableCell>{tag.tag}</TableCell>
                                             <TableCell>
-                                                <button className="text-red-500">Delete</button>
+                                                <button
+                                                    onClick={() => handleDelete(tag.id)}
+                                                    className="text-red-500 hover:underline"
+                                                >
+                                                    Delete
+                                                </button>
+
                                             </TableCell>
                                         </TableRow>
                                     ))}
