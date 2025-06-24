@@ -33,21 +33,33 @@ export default function Index() {
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
 
-                            <form onSubmit={handleSearch} className="mb-4">
-                                <input
-                                    type="text"
-                                    value={data.search}
-                                    onChange={(e) => setData('search', e.target.value)}
-                                    className="px-3 py-2 border rounded w-64"
-                                    placeholder="Search tag or slug..."
-                                />
-                                <button
-                                    type="submit"
-                                    className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+                            <div className="mb-4 flex justify-between items-center">
+                                {/* Tombol tambah data di kiri */}
+                                <a
+                                    href="/tag/create"
+                                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                                 >
-                                    Search
-                                </button>
-                            </form>
+                                    + Tambah Tag
+                                </a>
+
+                                {/* Form search di kanan */}
+                                <form onSubmit={handleSearch} className="flex items-center space-x-2">
+                                    <input
+                                        type="text"
+                                        value={data.search}
+                                        onChange={(e) => setData('search', e.target.value)}
+                                        className="px-3 py-2 border rounded w-64"
+                                        placeholder="Cari tag atau slug..."
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                    >
+                                        Cari
+                                    </button>
+                                </form>
+                            </div>
+
                             <Table>
                                 <TableHeader>
                                     <TableRow>

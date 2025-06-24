@@ -15,11 +15,13 @@ class TagController extends Controller
     {
         $search = $request->input('search');
 
-        $tags = Tag::when($search, function ($query, $search) {
+        $tags = Tag::query();
+        $tags = $tags->when($search, function ($query, $search) {
             $query->where('tag', 'like', "%{$search}%")
                 ->orWhere('slug', 'like', "%{$search}%");
         })
-            ->cursorPaginate();
+            ->cursorPaginate()
+            ->withQueryString();
 
         return Inertia::render('tag/index', [
             'tags' => $tags,
