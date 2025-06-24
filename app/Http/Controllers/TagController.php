@@ -11,7 +11,8 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         $tags = Tag::paginate();
 
         return Inertia::render('tag/index', compact([
@@ -39,7 +40,7 @@ class TagController extends Controller
             'tag' => 'required',
         ]);
 
-        $tag = new Tag();
+        $tag = new Tag;
 
         $tag->slug = $request->slug;
         $tag->tag = $request->tag;
