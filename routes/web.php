@@ -4,6 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchPostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('surimbim');
     })->name('surimbim');
 
+    Route::resource('/tag', TagController::class);
     Route::resource('/post', PostController::class);
     Route::resource('/image', ImageController::class);
 });
