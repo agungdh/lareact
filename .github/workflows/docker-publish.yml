@@ -4,10 +4,9 @@ on:
   push:
     branches: [ "main" ]
     tags:     [ "v*.*.*" ]
-  pull_request:
-    branches: [ "main" ]  # Ini akan berjalan saat PR ke main dibuka/sync/merge
 
 env:
+  # Otomatis: <username-DockerHub>/<nama-repo-GitHub>
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
 
 jobs:
@@ -27,8 +26,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      #########################################################
+      # Build & push ketika event-nya BRANCH (bukan tag)
+      #########################################################
       - name: Build & push (branch)
-        if: ${{ github.event_name == 'push' && github.ref_type == 'branch' }}
+        if: ${{ github.ref_type == 'branch' }}
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -37,6 +39,9 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
+      #########################################################
+      # Build & push khusus event TAG
+      #########################################################
       - name: Build & push (tag)
         if: ${{ github.ref_type == 'tag' }}
         uses: docker/build-push-action@v5
