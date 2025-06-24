@@ -100,6 +100,10 @@ export default function Index() {
                                 )}
                             </div>
 
+                            <div className="mt-2 text-sm text-gray-600">
+                                Menampilkan {tags.data.length} data pada halaman ini.
+                            </div>
+
                         </div>
                     </section>
                 </div>
