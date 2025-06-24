@@ -19,7 +19,8 @@ class TagController extends Controller
         $tags = $tags->when($search, function ($query, $search) {
             $query->where('tag', 'like', "%{$search}%")
                 ->orWhere('slug', 'like', "%{$search}%");
-        })
+        });
+        $tags = $tags->orderBy('tags.id')
             ->cursorPaginate()
             ->withQueryString();
 
