@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,16 +11,22 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index() {
+        $tags = Tag::paginate();
+
+        return Inertia::render('tag/index', compact([
+            'tags',
+        ]));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return Inertia::render('tag/form', [
+        return Inertia::render('tag/form', compact([
 
-        ]);
+        ]));
     }
 
     /**
@@ -31,6 +38,13 @@ class TagController extends Controller
             'slug' => 'required|unique:tags,slug',
             'tag' => 'required',
         ]);
+
+        $tag = new Tag();
+
+        $tag->slug = $request->slug;
+        $tag->tag = $request->tag;
+
+        $tag->save();
     }
 
     /**

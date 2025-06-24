@@ -1,0 +1,50 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/react';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Tag',
+        href: '/tag',
+    },
+];
+
+export default function Index({ tags }) {
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Index" />
+
+            <div className="flex justify-center px-4 py-6">
+                <div className="w-3/4">
+                    <section className="w-full space-y-12">
+                        <div className="space-y-6">
+                            <a href="/tag/create">Tambah</a>
+
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Slug</TableHead>
+                                        <TableHead>Tag</TableHead>
+                                        <TableHead>Action</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {tags.data.map((tag) => (
+                                        <TableRow key={tag.id}>
+                                            <TableCell>{tag.slug}</TableCell>
+                                            <TableCell>{tag.tag}</TableCell>
+                                            <TableCell>
+                                                <button>Delete</button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </AppLayout>
+    );
+}
