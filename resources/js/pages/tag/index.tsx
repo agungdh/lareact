@@ -73,18 +73,17 @@ export default function Index() {
         const isSame = filters.order_by === column;
         const newDir = isSame && filters.order_dir === 'asc' ? 'desc' : 'asc';
 
-        console.log({column, isSame, newDir})
-
-        router.get('tag/index', {
-            ...filters,
+        router.get(route('tag.index'), {
+            page: 1, // reset ke halaman pertama
+            per_page: filters.per_page ?? 10,
+            search: filters.search ?? '',
             order_by: column,
             order_dir: newDir,
         }, {
-            preserveState: true,
+            preserveScroll: true,
             replace: true,
         });
     };
-
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

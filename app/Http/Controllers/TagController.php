@@ -13,6 +13,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
+//        dd($request->all());
         $search = $request->input('search');
         $perPage = min((int) $request->input('per_page', 10), 100);
 
@@ -33,6 +34,7 @@ class TagController extends Controller
             ->withQueryString();
 
         return Inertia::render('tag/index', [
+            'req' => $request->all(),
             'tags' => $tags,
             'filters' => [
                 'search' => $search,
