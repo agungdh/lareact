@@ -69,6 +69,23 @@ export default function Index() {
         }
     };
 
+    const toggleOrder = (column: string) => {
+        const isSame = filters.order_by === column;
+        const newDir = isSame && filters.order_dir === 'asc' ? 'desc' : 'asc';
+
+        console.log({column, isSame, newDir})
+
+        router.get('tag/index', {
+            ...filters,
+            order_by: column,
+            order_dir: newDir,
+        }, {
+            preserveState: true,
+            replace: true,
+        });
+    };
+
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Index" />
@@ -112,9 +129,9 @@ export default function Index() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>ID</TableHead>
-                                        <TableHead>Slug</TableHead>
-                                        <TableHead>Tag</TableHead>
+                                        <TableHead onClick={() => toggleOrder('id')}>ID</TableHead>
+                                        <TableHead onClick={() => toggleOrder('slug')}>Slug</TableHead>
+                                        <TableHead onClick={() => toggleOrder('tag')}>Tag</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>

@@ -16,12 +16,19 @@ class TagController extends Controller
         $search = $request->input('search');
         $perPage = min((int) $request->input('per_page', 10), 100);
 
+        // Whitelist kolom dan arah sort
+        $allowedColumns = ['id', 'tag', 'slug'];
+        $allowedDirs = ['asc', 'desc'];
+
+        $orderBy = in_array($request->input('order_by'), $allowedColumns) ? $request->input('order_by') : 'id';
+        $orderDir = in_array($request->input('order_dir'), $allowedDirs) ? $request->input('order_dir') : 'asc';
+
         $tags = Tag::query()
             ->when($search, function ($query, $search) {
                 $query->where('tag', 'like', "%{$search}%")
                     ->orWhere('slug', 'like', "%{$search}%");
             })
-            ->orderBy('id')
+            ->orderBy($orderBy, $orderDir)
             ->paginate($perPage)
             ->withQueryString();
 
@@ -30,9 +37,12 @@ class TagController extends Controller
             'filters' => [
                 'search' => $search,
                 'per_page' => $perPage,
+                'order_by' => $orderBy,
+                'order_dir' => $orderDir,
             ],
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
