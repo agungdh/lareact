@@ -1,6 +1,6 @@
 import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
@@ -75,11 +75,11 @@ export default function Form() {
                                         Save
                                     </Button>
 
-                                    <a href="/tag">
+                                    <Link href="/tag">
                                         <Button type="button" variant="outline">
                                             Kembali
                                         </Button>
-                                    </a>
+                                    </Link>
 
                                     <Transition
                                         show={recentlySuccessful}
