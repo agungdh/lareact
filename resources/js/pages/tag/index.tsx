@@ -128,9 +128,15 @@ export default function Index() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead onClick={() => toggleOrder('id')}>ID</TableHead>
-                                        <TableHead onClick={() => toggleOrder('slug')}>Slug</TableHead>
-                                        <TableHead onClick={() => toggleOrder('tag')}>Tag</TableHead>
+                                        <TableHead onClick={() => toggleOrder('id')} className="cursor-pointer select-none">
+                                            ID {filters.order_by === 'id' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
+                                        </TableHead>
+                                        <TableHead onClick={() => toggleOrder('slug')} className="cursor-pointer select-none">
+                                            Slug {filters.order_by === 'slug' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
+                                        </TableHead>
+                                        <TableHead onClick={() => toggleOrder('tag')} className="cursor-pointer select-none">
+                                            Tag {filters.order_by === 'tag' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
+                                        </TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
