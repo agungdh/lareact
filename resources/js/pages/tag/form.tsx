@@ -1,3 +1,22 @@
+import { type BreadcrumbItem } from '@/types';
+import { Transition } from '@headlessui/react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+
+import HeadingSmall from '@/components/heading-small';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import AppLayout from '@/layouts/app-layout';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Tag',
+        href: '/tag',
+    },
+];
+
 export default function Form({ tag }: { tag?: Tag }) {
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
         slug: tag?.slug || '',
