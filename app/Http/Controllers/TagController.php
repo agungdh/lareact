@@ -98,7 +98,7 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $request->validate([
-            'slug' => 'required|unique:tags,slug',
+            'slug' => 'required|unique:tags,slug,' . $tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
             'tag' => 'required',
         ]);
 
@@ -107,7 +107,6 @@ class TagController extends Controller
         $tag->save();
 
         return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
-
     }
 
     /**
