@@ -2,6 +2,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -59,14 +61,6 @@ export default function Index() {
                 replace: true,
             },
         );
-    };
-
-    const handleDelete = (id) => {
-        if (confirm('Apakah kamu yakin ingin menghapus tag ini?')) {
-            router.delete(`/tag/${id}`, {
-                preserveScroll: true,
-            });
-        }
     };
 
     const toggleOrder = (column: string) => {
@@ -147,9 +141,16 @@ export default function Index() {
                                             <TableCell>{tag.slug}</TableCell>
                                             <TableCell>{tag.tag}</TableCell>
                                             <TableCell>
-                                                <button onClick={() => handleDelete(tag.id)} className="text-red-500 hover:underline">
-                                                    Delete
-                                                </button>
+                                                <DynamicConfirmDialog
+                                                    trigger={<Button variant="destructive">Hapus Data</Button>}
+                                                    title="Hapus Data"
+                                                    description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
+                                                    confirmLabel="Ya, Hapus"
+                                                    cancelLabel="Batal"
+                                                    onConfirm={() => router.delete(`/tag/${tag.id}`, {
+                                                        preserveScroll: true,
+                                                    })}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     ))}
