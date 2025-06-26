@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TagController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,24 +19,24 @@ class TagController extends Controller
         $perPage = min((int) $request->input('per_page', 10), 100);
 
         // Whitelist kolom dan arah sort
-        $allowedColumns = ['id', 'tag', 'slug'];
+        $allowedColumns = ['id', 'category', 'slug'];
         $allowedDirs = ['asc', 'desc'];
 
         $orderBy = in_array($request->input('order_by'), $allowedColumns) ? $request->input('order_by') : 'id';
         $orderDir = in_array($request->input('order_dir'), $allowedDirs) ? $request->input('order_dir') : 'asc';
 
-        $tags = Tag::query()
+        $categories = Category::query()
             ->when($search, function ($query, $search) {
-                $query->where('tag', 'like', "%{$search}%")
+                $query->where('category', 'like', "%{$search}%")
                     ->orWhere('slug', 'like', "%{$search}%");
             })
             ->orderBy($orderBy, $orderDir)
             ->paginate($perPage)
             ->withQueryString();
 
-        return Inertia::render('tag/index', [
+        return Inertia::render('category/index', [
             'req' => $request->all(),
-            'tags' => $tags,
+            'categories' => $categories,
             'filters' => [
                 'search' => $search,
                 'per_page' => $perPage,
@@ -51,9 +52,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return Inertia::render('tag/form', compact([
-
-        ]));
+        //
     }
 
     /**
@@ -61,17 +60,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'slug' => 'required|unique:tags,slug',
-            'tag' => 'required',
-        ]);
-
-        $tag = new Tag;
-        $tag->slug = $request->slug;
-        $tag->tag = $request->tag;
-        $tag->save();
-
-        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+        //
     }
 
     /**
@@ -103,8 +92,6 @@ class TagController extends Controller
      */
     public function destroy(string $id)
     {
-        Tag::query()->findOrFail($id)->delete();
-
-        return redirect()->back()->with('message', 'Tag berhasil dihapus.');
+        //
     }
 }

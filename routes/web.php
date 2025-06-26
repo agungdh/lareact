@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchPostController;
@@ -29,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('surimbim');
 
     Route::resource('/tag', TagController::class);
+    Route::resource('/category', CategoryController::class);
     Route::resource('/post', PostController::class);
     Route::resource('/image', ImageController::class);
 });
