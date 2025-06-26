@@ -18,7 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Form({ tag }: { tag?: Tag }) {
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
+    const { data, setData, post, put, errors, processing, recentlySuccessful } = useForm({
         slug: tag?.slug || '',
         tag: tag?.tag || '',
     });
@@ -28,7 +28,7 @@ export default function Form({ tag }: { tag?: Tag }) {
 
         if (tag) {
             // Jika tag sudah ada, kirim request untuk update
-            post(`/tag/${tag.id}`, {
+            put(`/tag/${tag.id}`, {
                 method: 'put',
                 preserveScroll: true,
             });

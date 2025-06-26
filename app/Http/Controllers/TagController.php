@@ -95,9 +95,19 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate([
+            'slug' => 'required|unique:tags,slug',
+            'tag' => 'required',
+        ]);
+
+        $tag->slug = $request->slug;
+        $tag->tag = $request->tag;
+        $tag->save();
+
+        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+
     }
 
     /**
