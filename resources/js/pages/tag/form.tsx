@@ -17,29 +17,38 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Form() {
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
-        slug: '',
-        tag: '',
+export default function Form({ tag }: { tag?: Tag }) {
+    const { data, setData, post, put, errors, processing, recentlySuccessful } = useForm({
+        slug: tag?.slug || '',
+        tag: tag?.tag || '',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post('/tag', {
-            preserveScroll: true,
-        });
+        if (tag) {
+            // Jika tag sudah ada, kirim request untuk update
+            put(`/tag/${tag.id}`, {
+                method: 'put',
+                preserveScroll: true,
+            });
+        } else {
+            // Jika tag baru, kirim request untuk store
+            post('/tag', {
+                preserveScroll: true,
+            });
+        }
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Tag" />
+            <Head title={tag ? "Edit Tag" : "Create Tag"} />
 
             <div className="flex justify-center px-4 py-6">
                 <div className="w-3/4">
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
-                            <HeadingSmall title="Create Tag" />
+                            <HeadingSmall title={tag ? "Edit Tag" : "Create Tag"} />
 
                             <form onSubmit={submit} className="w-full space-y-6">
                                 <div className="grid w-full gap-2">
@@ -71,25 +80,15 @@ export default function Form() {
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Button type="submit" disabled={processing}>
-                                        Save
-                                    </Button>
-
                                     <Link href="/tag">
                                         <Button type="button" variant="outline">
                                             Kembali
                                         </Button>
                                     </Link>
 
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm text-neutral-600">Saved</p>
-                                    </Transition>
+                                    <Button type="submit" disabled={processing}>
+                                        {tag ? 'Update' : 'Simpan'}
+                                    </Button>
                                 </div>
                             </form>
                         </div>

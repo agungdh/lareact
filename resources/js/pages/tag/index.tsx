@@ -1,10 +1,10 @@
 // src/pages/tag/Index.tsx
+import { Button } from '@/components/ui/button';
 import DataTable, { Column, Pagination } from '@/components/ui/data-table';
+import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router, usePage } from '@inertiajs/react';
-import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
-import { Button } from '@/components/ui/button';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 
 interface Tag {
     id: number;
@@ -12,9 +12,7 @@ interface Tag {
     tag: string;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Tag', href: '/tag' },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Tag', href: '/tag' }];
 
 export default function Index() {
     const { tags, filters } = usePage().props as {
@@ -57,14 +55,21 @@ export default function Index() {
             key: 'actions',
             label: 'Action',
             render: (tag) => (
-                <DynamicConfirmDialog
-                    trigger={<Button variant="destructive">Hapus Data</Button>}
-                    title="Hapus Data"
-                    description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
-                    confirmLabel="Ya, Hapus"
-                    cancelLabel="Batal"
-                    onConfirm={() => router.delete(`/tag/${tag.id}`, { preserveScroll: true })}
-                />
+                <>
+                    <Link href={`/tag/${tag.id}/edit`}>
+                        <button type="button" className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                            Ubah Data
+                        </button>
+                    </Link>
+                    <DynamicConfirmDialog
+                        trigger={<Button variant="destructive">Hapus Data</Button>}
+                        title="Hapus Data"
+                        description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
+                        confirmLabel="Ya, Hapus"
+                        cancelLabel="Batal"
+                        onConfirm={() => router.delete(`/tag/${tag.id}`, { preserveScroll: true })}
+                    />
+                </>
             ),
         },
     ];

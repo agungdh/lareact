@@ -85,17 +85,28 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tag $tag)
     {
-        //
+        return Inertia::render('tag/form', compact([
+            'tag',
+        ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate([
+            'slug' => 'required|unique:tags,slug,' . $tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
+            'tag' => 'required',
+        ]);
+
+        $tag->slug = $request->slug;
+        $tag->tag = $request->tag;
+        $tag->save();
+
+        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
     }
 
     /**
@@ -103,8 +114,12 @@ class TagController extends Controller
      */
     public function destroy(string $id)
     {
-        Tag::query()->findOrFail($id)->delete();
+        try {
+            Tag::query()->findOrFail($id)->delete();
 
-        return redirect()->back()->with('message', 'Tag berhasil dihapus.');
+            return redirect()->route('tag.index')->with('message', 'Tag berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('tag.index')->with('message', 'Tag gagal dihapus.');
+        }
     }
 }
