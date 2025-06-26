@@ -114,12 +114,6 @@ class TagController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            Tag::query()->findOrFail($id)->delete();
-
-            return redirect()->route('tag.index')->with('message', 'Tag berhasil dihapus.');
-        } catch (\Exception $e) {
-            return redirect()->route('tag.index')->with('message', 'Tag gagal dihapus.');
-        }
+        Tag::query()->findOrFail($id)->delete();
     }
 }
