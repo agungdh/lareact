@@ -117,10 +117,9 @@ class TagController extends Controller
         try {
             Tag::query()->findOrFail($id)->delete();
 
-            // Menggunakan withQueryString() untuk memastikan query string tetap ada
-            return redirect()->route('tag.index')->with('message', 'Tag berhasil dihapus.')->withQueryString();
+            return redirect()->route('tag.index')->with('message', 'Tag berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->route('tag.index')->with('message', 'Tag gagal dihapus.')->withQueryString();
+            return redirect()->route('tag.index')->with('message', 'Tag gagal dihapus.');
         }
     }
 }

@@ -1,3 +1,4 @@
+// src/pages/tag/Index.tsx
 import { Button } from '@/components/ui/button';
 import DataTable, { Column, Pagination } from '@/components/ui/data-table';
 import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
@@ -21,32 +22,17 @@ export default function Index() {
 
     // Callback untuk cari
     const handleSearch = (search: string) => {
-        router.get('/tag', {
-            search,
-            per_page: filters.per_page,
-            order_by: filters.order_by,
-            order_dir: filters.order_dir,
-        }, { preserveState: true, replace: true });
+        router.get('/tag', { search, per_page: filters.per_page }, { preserveState: true, replace: true });
     };
 
     // Callback untuk ubah jumlah per halaman
     const handlePerPageChange = (perPage: number) => {
-        router.get('/tag', {
-            search: filters.search,
-            per_page: perPage,
-            order_by: filters.order_by,
-            order_dir: filters.order_dir,
-        }, { preserveState: true, replace: true });
+        router.get('/tag', { search: filters.search, per_page: perPage }, { preserveState: true, replace: true });
     };
 
     // Callback untuk pagination
     const handlePageChange = (url: string) => {
-        router.get(url, {
-            search: filters.search,
-            per_page: filters.per_page,
-            order_by: filters.order_by,
-            order_dir: filters.order_dir,
-        }, { preserveState: true, replace: true });
+        router.get(url, { search: filters.search, per_page: filters.per_page }, { preserveState: true, replace: true });
     };
 
     // Callback untuk sorting
@@ -55,13 +41,7 @@ export default function Index() {
         const newDir = isSame && filters.order_dir === 'asc' ? 'desc' : 'asc';
         router.get(
             route('tag.index'),
-            {
-                page: 1,
-                per_page: filters.per_page,
-                search: filters.search,
-                order_by: column,
-                order_dir: newDir
-            },
+            { page: 1, per_page: filters.per_page, search: filters.search, order_by: column, order_dir: newDir },
             { preserveScroll: true, replace: true },
         );
     };
@@ -87,18 +67,7 @@ export default function Index() {
                         description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
                         confirmLabel="Ya, Hapus"
                         cancelLabel="Batal"
-                        onConfirm={() => router.delete(`/tag/${tag.id}`, {
-                            preserveScroll: true,
-                            onSuccess: () => {
-                                // Refreshing the page with current filters after deletion
-                                router.get('/tag', {
-                                    search: filters.search,
-                                    per_page: filters.per_page,
-                                    order_by: filters.order_by,
-                                    order_dir: filters.order_dir,
-                                }, { preserveState: true, replace: true });
-                            }
-                        })}
+                        onConfirm={() => router.delete(`/tag/${tag.id}`, { preserveScroll: true })}
                     />
                 </>
             ),
