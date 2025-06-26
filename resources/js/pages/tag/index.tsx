@@ -1,184 +1,91 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+// src/pages/tag/Index.tsx
+import DataTable, { Column, Pagination } from '@/components/ui/data-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
+import { Head, router, usePage } from '@inertiajs/react';
 import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
+import { Button } from '@/components/ui/button';
+
+interface Tag {
+    id: number;
+    slug: string;
+    tag: string;
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Tag',
-        href: '/tag',
-    },
+    { title: 'Tag', href: '/tag' },
 ];
 
 export default function Index() {
-    const { tags, filters } = usePage().props;
-
-    const { data, setData, get } = useForm({
-        search: filters.search || '',
-    });
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        router.get(
-            '/tag',
-            {
-                search: data.search,
-                per_page: filters.per_page,
-            },
-            {
-                preserveState: true,
-                replace: true,
-            },
-        );
+    const { tags, filters } = usePage().props as {
+        tags: Pagination & { data: Tag[] };
+        filters: Record<string, any>;
     };
 
-    const handlePerPageChange = (e) => {
-        const perPage = Math.min(parseInt(e.target.value), 100);
-        router.get(
-            '/tag',
-            {
-                search: data.search,
-                per_page: perPage,
-            },
-            {
-                preserveState: true,
-                replace: true,
-            },
-        );
+    // Callback untuk cari
+    const handleSearch = (search: string) => {
+        router.get('/tag', { search, per_page: filters.per_page }, { preserveState: true, replace: true });
     };
 
-    const handlePaginate = (url) => {
-        router.get(
-            url,
-            {
-                search: filters.search,
-                per_page: filters.per_page,
-            },
-            {
-                preserveState: true,
-                replace: true,
-            },
-        );
+    // Callback untuk ubah jumlah per halaman
+    const handlePerPageChange = (perPage: number) => {
+        router.get('/tag', { search: filters.search, per_page: perPage }, { preserveState: true, replace: true });
     };
 
-    const toggleOrder = (column: string) => {
+    // Callback untuk pagination
+    const handlePageChange = (url: string) => {
+        router.get(url, { search: filters.search, per_page: filters.per_page }, { preserveState: true, replace: true });
+    };
+
+    // Callback untuk sorting
+    const handleSort = (column: string) => {
         const isSame = filters.order_by === column;
         const newDir = isSame && filters.order_dir === 'asc' ? 'desc' : 'asc';
-
-        router.get(route('tag.index'), {
-            page: 1, // reset ke halaman pertama
-            per_page: filters.per_page ?? 10,
-            search: filters.search ?? '',
-            order_by: column,
-            order_dir: newDir,
-        }, {
-            preserveScroll: true,
-            replace: true,
-        });
+        router.get(
+            route('tag.index'),
+            { page: 1, per_page: filters.per_page, search: filters.search, order_by: column, order_dir: newDir },
+            { preserveScroll: true, replace: true },
+        );
     };
+
+    // Definisi kolom
+    const columns: Column<Tag>[] = [
+        { key: 'id', label: 'ID', sortable: true },
+        { key: 'slug', label: 'Slug', sortable: true },
+        { key: 'tag', label: 'Tag', sortable: true },
+        {
+            key: 'actions',
+            label: 'Action',
+            render: (tag) => (
+                <DynamicConfirmDialog
+                    trigger={<Button variant="destructive">Hapus Data</Button>}
+                    title="Hapus Data"
+                    description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
+                    confirmLabel="Ya, Hapus"
+                    cancelLabel="Batal"
+                    onConfirm={() => router.delete(`/tag/${tag.id}`, { preserveScroll: true })}
+                />
+            ),
+        },
+    ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Index" />
-
+            <Head title="Daftar Tag" />
             <div className="flex justify-center px-4 py-6">
                 <div className="w-3/4">
-                    <section className="w-full space-y-12">
-                        <div className="space-y-6">
-                            <div className="mb-4 flex items-center justify-between">
-                                {/* Tombol tambah */}
-                                <Link href="/tag/create" className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                                    + Tambah Tag
-                                </Link>
-
-                                {/* Per Page + Search */}
-                                <div className="flex items-center gap-4">
-                                    <select value={filters.per_page || 10} onChange={handlePerPageChange} className="rounded border px-2 py-1">
-                                        {[10, 25, 50, 100].map((option) => (
-                                            <option key={option} value={option}>
-                                                {option} per halaman
-                                            </option>
-                                        ))}
-                                    </select>
-
-                                    <form onSubmit={handleSearch} className="flex items-center space-x-2">
-                                        <input
-                                            type="text"
-                                            value={data.search}
-                                            onChange={(e) => setData('search', e.target.value)}
-                                            className="w-64 rounded border px-3 py-2"
-                                            placeholder="Cari tag atau slug..."
-                                        />
-                                        <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                                            Cari
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-
-                            {/* Tabel */}
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead onClick={() => toggleOrder('id')} className="cursor-pointer select-none">
-                                            ID {filters.order_by === 'id' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
-                                        </TableHead>
-                                        <TableHead onClick={() => toggleOrder('slug')} className="cursor-pointer select-none">
-                                            Slug {filters.order_by === 'slug' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
-                                        </TableHead>
-                                        <TableHead onClick={() => toggleOrder('tag')} className="cursor-pointer select-none">
-                                            Tag {filters.order_by === 'tag' ? (filters.order_dir === 'asc' ? '↑' : '↓') : ''}
-                                        </TableHead>
-                                        <TableHead>Action</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {tags.data.map((tag) => (
-                                        <TableRow key={tag.id}>
-                                            <TableCell>{tag.id}</TableCell>
-                                            <TableCell>{tag.slug}</TableCell>
-                                            <TableCell>{tag.tag}</TableCell>
-                                            <TableCell>
-                                                <DynamicConfirmDialog
-                                                    trigger={<Button variant="destructive">Hapus Data</Button>}
-                                                    title="Hapus Data"
-                                                    description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
-                                                    confirmLabel="Ya, Hapus"
-                                                    cancelLabel="Batal"
-                                                    onConfirm={() => router.delete(`/tag/${tag.id}`, {
-                                                        preserveScroll: true,
-                                                    })}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-
-                            {/* Pagination & Info */}
-                            <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                                <div className="flex gap-2">
-                                    {tags.prev_page_url && (
-                                        <button onClick={() => handlePaginate(tags.prev_page_url)} className="rounded bg-gray-200 px-3 py-1">
-                                            Prev
-                                        </button>
-                                    )}
-                                    {tags.next_page_url && (
-                                        <button onClick={() => handlePaginate(tags.next_page_url)} className="rounded bg-gray-200 px-3 py-1">
-                                            Next
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div className="text-sm text-gray-600">
-                                    Menampilkan data ke {tags.from} sampai {tags.to} dari total {tags.total} data. Halaman {tags.current_page} dari{' '}
-                                    {tags.last_page}.
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <DataTable<Tag>
+                        columns={columns}
+                        data={tags.data}
+                        pagination={tags}
+                        filters={filters}
+                        addNewButton={{ href: '/tag/create', label: '+ Tambah Tag' }}
+                        onSearch={handleSearch}
+                        onPerPageChange={handlePerPageChange}
+                        onPageChange={handlePageChange}
+                        onSort={handleSort}
+                        searchPlaceholder="Cari tag atau slug..."
+                    />
                 </div>
             </div>
         </AppLayout>
