@@ -1,10 +1,10 @@
 // src/pages/category/Index.tsx
+import { Button } from '@/components/ui/button';
 import DataTable, { Column, Pagination } from '@/components/ui/data-table';
+import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
-import { DynamicConfirmDialog } from '@/components/ui/dynamic-conrifm-dialog';
-import { Button } from '@/components/ui/button';
 
 interface Category {
     id: number;
@@ -12,9 +12,7 @@ interface Category {
     category: string;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Category', href: '/category' },
-];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Category', href: '/category' }];
 
 export default function Index() {
     const { categories, filters } = usePage().props as {

@@ -13,7 +13,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $search = $request->input('search');
         $perPage = min((int) $request->input('per_page', 10), 100);
 
@@ -44,7 +44,6 @@ class TagController extends Controller
             ],
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -98,7 +97,7 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $request->validate([
-            'slug' => 'required|unique:tags,slug,' . $tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
+            'slug' => 'required|unique:tags,slug,'.$tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
             'tag' => 'required',
         ]);
 
@@ -115,16 +114,16 @@ class TagController extends Controller
     public function destroy(Request $request, Tag $tag)
     {
         try {
-                $tag->delete();
+            $tag->delete();
 
-                return redirect()->route('tag.index', $request->only([
-                    'search', 'per_page', 'order_by', 'order_dir', 'page'
-                ]))->with('message', 'Tag berhasil dihapus.');
+            return redirect()->route('tag.index', $request->only([
+                'search', 'per_page', 'order_by', 'order_dir', 'page',
+            ]))->with('message', 'Tag berhasil dihapus.');
 
         } catch (\Exception $e) {
             return redirect()->route('tag.index', $request->only([
-                'search', 'per_page', 'order_by', 'order_dir', 'page'
-            ]))->with('message', 'Terjadi kesalahan saat menghapus tag: ' . $e->getMessage());
+                'search', 'per_page', 'order_by', 'order_dir', 'page',
+            ]))->with('message', 'Terjadi kesalahan saat menghapus tag: '.$e->getMessage());
         }
     }
 }

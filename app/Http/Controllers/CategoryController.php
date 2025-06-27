@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Tag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $search = $request->input('search');
         $perPage = min((int) $request->input('per_page', 10), 100);
 
@@ -45,7 +44,6 @@ class CategoryController extends Controller
             ],
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
