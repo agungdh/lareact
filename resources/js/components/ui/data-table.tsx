@@ -74,7 +74,7 @@ export default function DataTable<T extends Record<string, any>>(props: DataTabl
 
     return (
         <div>
-            <div className="mb-4 flex items-center justify-between">
+            <div className={`mb-4 flex items-center ${addNewButton ? 'justify-between' : 'justify-end'}`}>
                 {addNewButton && (
                     <Link href={addNewButton.href} className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
                         {addNewButton.label}

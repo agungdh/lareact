@@ -101,7 +101,6 @@ export default function Index() {
                         onPerPageChange={handlePerPageChange}
                         onPageChange={handlePageChange}
                         onSort={handleSort}
-                        searchPlaceholder="Cari tag atau slug..."
                     />
                 </div>
             </div>
