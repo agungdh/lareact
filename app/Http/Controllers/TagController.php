@@ -114,11 +114,17 @@ class TagController extends Controller
      */
     public function destroy(Request $request, Tag $tag)
     {
-        $tag->delete();
+        try {
+                $tag->delete();
 
-        // Redirect back with query string
-        return redirect()->route('tag.index', $request->only([
-            'search', 'per_page', 'order_by', 'order_dir', 'page'
-        ]));
+                return redirect()->route('tag.index', $request->only([
+                    'search', 'per_page', 'order_by', 'order_dir', 'page'
+                ]))->with('message', 'Tag berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            return redirect()->route('tag.index', $request->only([
+                'search', 'per_page', 'order_by', 'order_dir', 'page'
+            ]))->with('message', 'Terjadi kesalahan saat menghapus tag: ' . $e->getMessage());
+        }
     }
 }
