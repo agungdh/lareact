@@ -112,8 +112,13 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Tag $tag)
     {
-        Tag::query()->findOrFail($id)->delete();
+        $tag->delete();
+
+        // Redirect back with query string
+        return redirect()->route('tag.index', $request->only([
+            'search', 'per_page', 'order_by', 'order_dir', 'page'
+        ]));
     }
 }
