@@ -70,7 +70,7 @@ class TagController extends Controller
         $tag->tag = $request->tag;
         $tag->save();
 
-        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+        return redirect()->route('tag.index')->with('success', 'Tag berhasil disimpan.');
     }
 
     /**
@@ -105,7 +105,7 @@ class TagController extends Controller
         $tag->tag = $request->tag;
         $tag->save();
 
-        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+        return redirect()->route('tag.index')->with('success', 'Tag berhasil disimpan.');
     }
 
     /**
@@ -118,12 +118,12 @@ class TagController extends Controller
 
             return redirect()->route('tag.index', $request->only([
                 'search', 'per_page', 'order_by', 'order_dir', 'page',
-            ]))->with('message', 'Tag berhasil dihapus.');
+            ]))->with('success', 'Tag berhasil dihapus.');
 
         } catch (\Exception $e) {
             return redirect()->route('tag.index', $request->only([
                 'search', 'per_page', 'order_by', 'order_dir', 'page',
-            ]))->with('message', 'Terjadi kesalahan saat menghapus tag: '.$e->getMessage());
+            ]))->with('error', 'Terjadi kesalahan saat menghapus tag: '.$e->getMessage());
         }
     }
 }
