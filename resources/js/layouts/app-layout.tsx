@@ -13,6 +13,7 @@ export default function AppLayout({ children, breadcrumbs, ...props }: AppLayout
     const { flash } = usePage().props;
 
     useEffect(() => {
+        console.log({flash})
         // Trigger sonner flash messages only on client
         if (flash?.success) toast.success(flash.success);
         if (flash?.error) toast.error(flash.error);

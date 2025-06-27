@@ -56,8 +56,9 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 // atau lebih lengkap:
-                // 'success' => fn () => $request->session()->get('success'),
-                // 'error' => fn () => $request->session()->get('error'),
+                 'success' => fn () => $request->session()->get('success'),
+                 'error' => fn () => $request->session()->get('error'),
+                 'info' => fn () => $request->session()->get('info'),
             ],
         ];
     }
