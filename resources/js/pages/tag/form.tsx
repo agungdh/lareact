@@ -1,5 +1,4 @@
 import { type BreadcrumbItem } from '@/types';
-import { Transition } from '@headlessui/react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
@@ -42,13 +41,13 @@ export default function Form({ tag }: { tag?: Tag }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tag ? "Edit Tag" : "Create Tag"} />
+            <Head title={tag ? 'Edit Tag' : 'Create Tag'} />
 
             <div className="flex justify-center px-4 py-6">
                 <div className="w-3/4">
                     <section className="w-full space-y-12">
                         <div className="space-y-6">
-                            <HeadingSmall title={tag ? "Edit Tag" : "Create Tag"} />
+                            <HeadingSmall title={tag ? 'Edit Tag' : 'Create Tag'} />
 
                             <form onSubmit={submit} className="w-full space-y-6">
                                 <div className="grid w-full gap-2">

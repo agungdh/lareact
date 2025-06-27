@@ -67,7 +67,19 @@ export default function Index() {
                         description="Data yang sudah dihapus tidak bisa dikembalikan. Lanjutkan?"
                         confirmLabel="Ya, Hapus"
                         cancelLabel="Batal"
-                        onConfirm={() => router.delete(`/tag/${tag.id}`, { preserveScroll: true })}
+                        onConfirm={() =>
+                            router.delete(`/tag/${tag.id}`, {
+                                preserveScroll: true,
+                                preserveState: true,
+                                data: {
+                                    search: filters.search,
+                                    per_page: filters.per_page,
+                                    order_by: filters.order_by,
+                                    order_dir: filters.order_dir,
+                                    page: filters.page,
+                                },
+                            })
+                        }
                     />
                 </>
             ),
@@ -89,7 +101,6 @@ export default function Index() {
                         onPerPageChange={handlePerPageChange}
                         onPageChange={handlePageChange}
                         onSort={handleSort}
-                        searchPlaceholder="Cari tag atau slug..."
                     />
                 </div>
             </div>

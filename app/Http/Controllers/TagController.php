@@ -13,7 +13,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $search = $request->input('search');
         $perPage = min((int) $request->input('per_page', 10), 100);
 
@@ -45,7 +45,6 @@ class TagController extends Controller
         ]);
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -71,7 +70,7 @@ class TagController extends Controller
         $tag->tag = $request->tag;
         $tag->save();
 
-        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+        return redirect()->route('tag.index')->with('success', 'Tag berhasil disimpan.');
     }
 
     /**
@@ -98,7 +97,7 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $request->validate([
-            'slug' => 'required|unique:tags,slug,' . $tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
+            'slug' => 'required|unique:tags,slug,'.$tag->id,  // Menambahkan pengecualian untuk tag yang sedang diperbarui
             'tag' => 'required',
         ]);
 
@@ -106,20 +105,25 @@ class TagController extends Controller
         $tag->tag = $request->tag;
         $tag->save();
 
-        return redirect()->route('tag.index')->with('message', 'Tag berhasil disimpan.');
+        return redirect()->route('tag.index')->with('success', 'Tag berhasil disimpan.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Tag $tag)
     {
         try {
-            Tag::query()->findOrFail($id)->delete();
+            $tag->delete();
 
-            return redirect()->route('tag.index')->with('message', 'Tag berhasil dihapus.');
+            return redirect()->route('tag.index', $request->only([
+                'search', 'per_page', 'order_by', 'order_dir', 'page',
+            ]))->with('success', 'Tag berhasil dihapus.');
+
         } catch (\Exception $e) {
-            return redirect()->route('tag.index')->with('message', 'Tag gagal dihapus.');
+            return redirect()->route('tag.index', $request->only([
+                'search', 'per_page', 'order_by', 'order_dir', 'page',
+            ]))->with('error', 'Terjadi kesalahan saat menghapus tag: '.$e->getMessage());
         }
     }
 }
