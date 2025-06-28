@@ -50,7 +50,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('category/form', compact([
+
+        ]));
     }
 
     /**
@@ -58,7 +60,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'slug' => 'required|unique:categories,slug',
+            'category' => 'required',
+        ]);
+
+        $category = new Category;
+        $category->slug = $request->slug;
+        $category->category = $request->category;
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category berhasil disimpan.');
     }
 
     /**
@@ -72,24 +84,39 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return Inertia::render('category/form', compact([
+            'category',
+        ]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'slug' => 'required|unique:categories,slug,'.$category->id,  // Menambahkan pengecualian untuk category yang sedang diperbarui
+            'category' => 'required',
+        ]);
+
+        $category->slug = $request->slug;
+        $category->category = $request->category;
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category berhasil disimpan.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('category.index', $request->only([
+            'search', 'per_page', 'order_by', 'order_dir', 'page',
+        ]))->with('success', 'Category berhasil dihapus.');
     }
 }
