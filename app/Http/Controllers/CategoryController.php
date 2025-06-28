@@ -113,17 +113,10 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
-        try {
-            $category->delete();
+        $category->delete();
 
-            return redirect()->route('category.index', $request->only([
-                'search', 'per_page', 'order_by', 'order_dir', 'page',
-            ]))->with('success', 'Category berhasil dihapus.');
-
-        } catch (\Exception $e) {
-            return redirect()->route('category.index', $request->only([
-                'search', 'per_page', 'order_by', 'order_dir', 'page',
-            ]))->with('error', 'Terjadi kesalahan saat menghapus category: '.$e->getMessage());
-        }
+        return redirect()->route('category.index', $request->only([
+            'search', 'per_page', 'order_by', 'order_dir', 'page',
+        ]))->with('success', 'Category berhasil dihapus.');
     }
 }
